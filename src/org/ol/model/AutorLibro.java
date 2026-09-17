@@ -39,6 +39,10 @@ public class AutorLibro {
         this.idAutorLibro = idAutorLibro;
     }
 
+    public int getIdAutor() {
+        return idAutor;
+    }
+
     public void setIdAutor(int idAutor) {
         this.idAutor = idAutor;
     }
@@ -49,4 +53,12 @@ public class AutorLibro {
 
     
     
+}
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 }

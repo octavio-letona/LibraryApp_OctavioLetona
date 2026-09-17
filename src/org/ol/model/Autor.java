@@ -10,6 +10,8 @@ package org.ol.model;
  * @version 1.0.0
  * @see org.ol.model.Autor
  */
+
+
 public class Autor {
 
     private int idAutor;
@@ -53,16 +55,32 @@ public class Autor {
         return idAutor;
     }
 
+    public void setIdAutor(int idAutor) {
+        this.idAutor = idAutor;
+    }
+
     public String getNombreAutor() {
         return nombreAutor;
+    }
+
+    public void setNombreAutor(String nombreAutor) {
+        this.nombreAutor = nombreAutor;
     }
 
     public String getApellidoAutor() {
         return apellidoAutor;
     }
 
+    public void setApellidoAutor(String apellidoAutor) {
+        this.apellidoAutor = apellidoAutor;
+    }
+
     public String getNacionalidad() {
         return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
 
     public String getBiografia() {
@@ -74,4 +92,13 @@ public class Autor {
         return nombreAutor + " " + apellidoAutor;
     }
     
+}
+    public void setBiografia(String biografia) {
+        this.biografia = biografia;
+    }
+
+    @Override
+    public String toString() {
+        return nombreAutor + " " + apellidoAutor;
+    }
 }

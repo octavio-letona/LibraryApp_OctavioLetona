@@ -12,6 +12,8 @@ package org.ol.model;
  */
 public class Categoria {
 
+
+public class Categoria {
     private int idCategoria;
     private String nombreCategoria;
 
@@ -35,6 +37,10 @@ public class Categoria {
         this.idCategoria = idCategoria;
     }
 
+    public String getNombreCategoria() {
+        return nombreCategoria;
+    }
+
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
@@ -45,3 +51,4 @@ public class Categoria {
     }
 
 }
+
