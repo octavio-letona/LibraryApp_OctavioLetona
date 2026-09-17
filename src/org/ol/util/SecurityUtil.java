@@ -8,9 +8,7 @@ package org.ol.util;
  *
  * @author informatica
  */
-public class SecurityUtil {
-    
-}
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

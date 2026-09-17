@@ -3,12 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.ol.model;
-
-/**
- *
- * @author informatica
- */
-
 public class AutorLibro {
     private int idAutorLibro;
     private int idAutor;
@@ -27,14 +21,6 @@ public class AutorLibro {
         return idAutorLibro;
     }
 
-    public int getIdAutor() {
-        return idAutor;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
     public void setIdAutorLibro(int idAutorLibro) {
         this.idAutorLibro = idAutorLibro;
     }
@@ -47,13 +33,6 @@ public class AutorLibro {
         this.idAutor = idAutor;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    
-    
-}
     public String getIsbn() {
         return isbn;
     }
