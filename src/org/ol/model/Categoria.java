@@ -4,6 +4,14 @@
  */
 package org.ol.model;
 
+/**
+ *
+ * @author Octavio letona
+ * @version 1.0.0
+ * @see org.ol.model.Categoria
+ */
+public class Categoria {
+
 
 public class Categoria {
     private int idCategoria;
@@ -19,6 +27,10 @@ public class Categoria {
 
     public int getIdCategoria() {
         return idCategoria;
+    }
+
+    public String getNombreCategoria() {
+        return nombreCategoria;
     }
 
     public void setIdCategoria(int idCategoria) {
@@ -37,4 +49,6 @@ public class Categoria {
     public String toString() {
         return nombreCategoria;
     }
+
 }
+

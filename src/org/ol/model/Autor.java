@@ -4,7 +4,16 @@
  */
 package org.ol.model;
 
+/**
+ *
+ * @author Octavio letona
+ * @version 1.0.0
+ * @see org.ol.model.Autor
+ */
+
+
 public class Autor {
+
     private int idAutor;
     private String nombreAutor;
     private String apellidoAutor;
@@ -19,6 +28,26 @@ public class Autor {
         this.nombreAutor = nombreAutor;
         this.apellidoAutor = apellidoAutor;
         this.nacionalidad = nacionalidad;
+        this.biografia = biografia;
+    }
+
+    public void setIdAutor(int idAutor) {
+        this.idAutor = idAutor;
+    }
+
+    public void setNombreAutor(String nombreAutor) {
+        this.nombreAutor = nombreAutor;
+    }
+
+    public void setApellidoAutor(String apellidoAutor) {
+        this.apellidoAutor = apellidoAutor;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public void setBiografia(String biografia) {
         this.biografia = biografia;
     }
 
@@ -58,6 +87,12 @@ public class Autor {
         return biografia;
     }
 
+     @Override
+    public String toString() {
+        return nombreAutor + " " + apellidoAutor;
+    }
+    
+}
     public void setBiografia(String biografia) {
         this.biografia = biografia;
     }
