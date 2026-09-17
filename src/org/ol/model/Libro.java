@@ -12,6 +12,17 @@ package org.ol.model;
  */
 public class Libro {
 
+    private String isbn;
+    private String titulo;
+    private String fechaPublicacion;
+    private double precio;
+    private int idCategoria;
+    private String nitEditorial;
+    private int stock;
+
+    public Libro() {
+    }
+
     public Libro(String isbn, String titulo, String fechaPublicacion, double precio, int idCategoria, String nitEditorial, int stock) {
         this.isbn = isbn;
         this.titulo = titulo;
@@ -78,15 +89,9 @@ public class Libro {
         return stock;
     }
 
-    private String isbn;
-    private String titulo;
-    private String fechaPublicacion;
-    private double precio;
-    private int idCategoria;
-    private String nitEditorial;
-    private int stock;
-
-    public Libro() {
+    @Override
+    public String toString() {
+        return titulo;
     }
 
 }

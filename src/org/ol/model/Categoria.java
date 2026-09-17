@@ -15,6 +15,9 @@ public class Categoria {
     private int idCategoria;
     private String nombreCategoria;
 
+    public Categoria() {
+    }
+
     public Categoria(int idCategoria, String nombreCategoria) {
         this.idCategoria = idCategoria;
         this.nombreCategoria = nombreCategoria;
@@ -36,7 +39,9 @@ public class Categoria {
         this.nombreCategoria = nombreCategoria;
     }
 
-    public Categoria() {
+    @Override
+    public String toString() {
+        return nombreCategoria;
     }
 
 }

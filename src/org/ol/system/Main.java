@@ -6,13 +6,10 @@ package org.ol.system;
 
 /**
  *
- * @author informatica
+ * @author iOctavio letona
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         // TODO code application logic here
     }
