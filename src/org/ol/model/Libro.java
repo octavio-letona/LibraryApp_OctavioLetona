@@ -4,7 +4,14 @@
  */
 package org.ol.model;
 
+/**
+ *
+ * @author Octavio letona
+ * @version 1.0.0
+ * @see org.ol.model.Libro
+ */
 public class Libro {
+
     private String isbn;
     private String titulo;
     private String fechaPublicacion;
@@ -82,8 +89,37 @@ public class Libro {
         this.stock = stock;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public String getNitEditorial() {
+        return nitEditorial;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
     @Override
     public String toString() {
         return titulo;
     }
+
 }
