@@ -1,4 +1,32 @@
 package org.ol.model;
+ 
+/**
+* Representa a un autor de libros dentro del sistema de la librería.
+* Almacena sus datos de identificación, su nacionalidad y una breve
+* biografía. Se relaciona con los libros a través de {@link AutorLibro}.
+*
+* @author Octavio Letona
+* @version 1.0.0
+* @see AutorLibro
+* @see Libro
+*/
+public class Autor {
+ 
+    /** Identificador único del autor en la base de datos. */
+    private int idAutor;
+ 
+    /** Nombre(s) de pila del autor. */
+    private String nombreAutor;
+ 
+    /** Apellido(s) del autor. */
+    private String apellidoAutor;
+ 
+    /** País o nacionalidad de origen del autor. */
+    private String nacionalidad;
+ 
+    /** Reseña biográfica del autor. */
+    private String biografia;
+ 
 
 /**
  * Representa a un autor de libros dentro del sistema de la librería.
@@ -68,7 +96,7 @@ public class Autor {
     public void setIdAutor(int idAutor) {
         this.idAutor = idAutor;
     }
-
+ 
     /**
      * Obtiene el nombre de pila del autor.
      *
@@ -77,7 +105,7 @@ public class Autor {
     public String getNombreAutor() {
         return nombreAutor;
     }
-
+ 
     /**
      * Establece el nombre de pila del autor.
      *
@@ -86,7 +114,7 @@ public class Autor {
     public void setNombreAutor(String nombreAutor) {
         this.nombreAutor = nombreAutor;
     }
-
+ 
     /**
      * Obtiene el apellido del autor.
      *
@@ -95,7 +123,7 @@ public class Autor {
     public String getApellidoAutor() {
         return apellidoAutor;
     }
-
+ 
     /**
      * Establece el apellido del autor.
      *
@@ -104,7 +132,7 @@ public class Autor {
     public void setApellidoAutor(String apellidoAutor) {
         this.apellidoAutor = apellidoAutor;
     }
-
+ 
     /**
      * Obtiene la nacionalidad del autor.
      *
@@ -113,7 +141,7 @@ public class Autor {
     public String getNacionalidad() {
         return nacionalidad;
     }
-
+ 
     /**
      * Establece la nacionalidad del autor.
      *
@@ -122,7 +150,7 @@ public class Autor {
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
-
+ 
     /**
      * Obtiene la biografía del autor.
      *
@@ -131,7 +159,7 @@ public class Autor {
     public String getBiografia() {
         return biografia;
     }
-
+ 
     /**
      * Establece la biografía del autor.
      *
@@ -140,7 +168,7 @@ public class Autor {
     public void setBiografia(String biografia) {
         this.biografia = biografia;
     }
-
+ 
     /**
      * Devuelve la representación en texto del autor, formada por su nombre
      * seguido de su apellido. Es el texto que se muestra, por ejemplo, en
