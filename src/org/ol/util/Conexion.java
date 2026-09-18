@@ -8,9 +8,7 @@ package org.ol.util;
  *
  * @author informatica
  */
-public class Conexion {
-    
-}
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
