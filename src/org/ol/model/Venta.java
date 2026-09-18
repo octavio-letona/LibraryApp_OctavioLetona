@@ -132,7 +132,6 @@ public class Venta {
     public int getIdUsuario() {
         return idUsuario;
     }
-
     /**
      * Establece el identificador del usuario que registró la venta.
      *
