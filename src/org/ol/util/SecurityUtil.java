@@ -4,6 +4,11 @@
  */
 package org.ol.util;
 
+/**
+ *
+ * @author informatica
+ */
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
