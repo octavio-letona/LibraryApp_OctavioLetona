@@ -39,7 +39,7 @@ Es una estructura de almacenamiento organizada en filas (registros) y columnas (
 Es el identificador único e irrepetible para cada registro dentro de una tabla.
 
 ¿Qué es una clave foránea?
-Es un campo en una tabla que hace referencia a la clave primaria de otra tabla para establecer una relación entre ambas.
+Aun no se
 
 ¿Qué significa CRUD?
 Acronimo de las operaciones básicas en bases de datos: Create (Crear), Read (Leer), Update (Actualizar) y Delete (Eliminar).
@@ -71,7 +71,7 @@ Herramienta visual e interactiva que permite diseñar interfaces FXML arrastrand
 Clase de Java que contiene la lógica de interacción de la vista FXML, procesando los eventos ejecutados por el usuario.
 
 ¿Qué significa @FXML?
-Anotación que vincula los componentes del archivo FXML con los atributos y métodos definidos dentro del Controller.
+Aun no se.
 
 ¿Qué significa MVC?
 Model-View-Controller (Modelo-Vista-Controlador): patrón de arquitectura que separa la aplicación en datos/lógica de negocio, interfaz gráfica y control.
