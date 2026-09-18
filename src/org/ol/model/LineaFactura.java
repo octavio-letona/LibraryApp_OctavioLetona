@@ -1,10 +1,10 @@
 package org.ol.model;
 
 /**
- * Representa una línea de una factura, reuniendo en un solo objeto los datos de
- * la venta, del cliente, del libro vendido y del usuario que atendió la
- * transacción. Se utiliza para mostrar o imprimir facturas, no como entidad de
- * una sola tabla.
+ * Representa una línea de una factura, reuniendo en un solo objeto los datos
+ * de la venta, del cliente, del libro vendido y del usuario que atendió la
+ * transacción. Se utiliza para mostrar o imprimir facturas, no como entidad
+ * de una sola tabla.
  *
  * @author Octavio Letona
  * @version 1.0.0
@@ -16,69 +16,45 @@ package org.ol.model;
  */
 public class LineaFactura {
 
-    /**
-     * Número de la factura; corresponde al número de la venta.
-     */
+    /** Número de la factura; corresponde al número de la venta. */
     private int numeroFactura;
 
-    /**
-     * Fecha de emisión de la factura, almacenada como texto.
-     */
+    /** Fecha de emisión de la factura, almacenada como texto. */
     private String fechaEmision;
 
-    /**
-     * CUI del cliente al que se le emite la factura.
-     */
+    /** CUI del cliente al que se le emite la factura. */
     private long cuiCliente;
 
-    /**
-     * Nombre completo del cliente.
-     */
+    /** Nombre completo del cliente. */
     private String nombreCliente;
 
-    /**
-     * Correo electrónico del cliente.
-     */
+    /** Correo electrónico del cliente. */
     private String correoCliente;
 
-    /**
-     * ISBN del libro incluido en esta línea.
-     */
+    /** ISBN del libro incluido en esta línea. */
     private String isbnLibro;
 
-    /**
-     * Título del libro incluido en esta línea.
-     */
+    /** Título del libro incluido en esta línea. */
     private String tituloLibro;
 
-    /**
-     * Cantidad de ejemplares del libro en esta línea.
-     */
+    /** Cantidad de ejemplares del libro en esta línea. */
     private int cantidad;
 
-    /**
-     * Precio unitario del libro en esta línea.
-     */
+    /** Precio unitario del libro en esta línea. */
     private double precioUnitario;
 
-    /**
-     * Subtotal de la línea (cantidad por precio unitario).
-     */
+    /** Subtotal de la línea (cantidad por precio unitario). */
     private double subtotal;
 
-    /**
-     * Usuario que atendió la venta.
-     */
+    /** Usuario que atendió la venta. */
     private String usuarioAtendio;
 
-    /**
-     * Total general de la factura.
-     */
+    /** Total general de la factura. */
     private double granTotal;
 
     /**
-     * Constructor vacío. Crea una línea de factura sin datos inicializados; los
-     * valores se asignan mediante los métodos setter.
+     * Constructor vacío. Crea una línea de factura sin datos inicializados;
+     * los valores se asignan mediante los métodos setter.
      */
     public LineaFactura() {
     }
@@ -131,8 +107,7 @@ public class LineaFactura {
     /**
      * Establece el CUI del cliente.
      *
-     * @param cuiCliente nuevo CUI del cliente; debe ser un valor numérico
-     * positivo
+     * @param cuiCliente nuevo CUI del cliente; debe ser un valor numérico positivo
      */
     public void setCuiCliente(long cuiCliente) {
         this.cuiCliente = cuiCliente;
@@ -168,8 +143,7 @@ public class LineaFactura {
     /**
      * Establece el correo electrónico del cliente.
      *
-     * @param correoCliente nuevo correo del cliente; se espera un formato
-     * válido (usuario@dominio)
+     * @param correoCliente nuevo correo del cliente; se espera un formato válido (usuario@dominio)
      */
     public void setCorreoCliente(String correoCliente) {
         this.correoCliente = correoCliente;
