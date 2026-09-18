@@ -1,39 +1,39 @@
 package org.ol.model;
- 
+
 /**
-* Representa una línea de detalle de una venta: un libro específico que se
-* vendió, junto con la cantidad y el precio aplicado. Una {@link Venta}
-* puede tener varios detalles, uno por cada libro distinto vendido.
-*
-* @author Octavio Letona
-* @version 1.0.0
-* @see Venta
-* @see Libro
-*/
+ * Representa una línea de detalle de una venta: un libro específico que se
+ * vendió, junto con la cantidad y el precio aplicado. Una {@link Venta}
+ * puede tener varios detalles, uno por cada libro distinto vendido.
+ *
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see Venta
+ * @see Libro
+ */
 public class DetalleVenta {
- 
+
     /** Identificador único del detalle de venta. */
     private int idDetalleVenta;
- 
+
     /** Número de la venta a la que pertenece este detalle; referencia a {@link Venta#getNoVenta()}. */
     private int noVenta;
- 
+
     /** ISBN del libro vendido; referencia a {@link Libro#getIsbn()}. */
     private String isbn;
- 
+
     /** Cantidad de ejemplares vendidos del libro. */
     private int cantidad;
- 
+
     /** Precio unitario del libro aplicado en esta venta. */
     private double precio;
- 
+
     /**
      * Constructor vacío. Crea un detalle de venta sin datos inicializados;
      * los valores se pueden asignar posteriormente mediante los métodos setter.
      */
     public DetalleVenta() {
     }
- 
+
     /**
      * Constructor parametrizado. Crea un detalle de venta con todos sus datos.
      *
@@ -50,7 +50,7 @@ public class DetalleVenta {
         this.cantidad = cantidad;
         this.precio = precio;
     }
- 
+
     /**
      * Obtiene el identificador único del detalle de venta.
      *
@@ -59,7 +59,7 @@ public class DetalleVenta {
     public int getIdDetalleVenta() {
         return idDetalleVenta;
     }
- 
+
     /**
      * Establece el identificador único del detalle de venta.
      *
@@ -68,7 +68,7 @@ public class DetalleVenta {
     public void setIdDetalleVenta(int idDetalleVenta) {
         this.idDetalleVenta = idDetalleVenta;
     }
- 
+
     /**
      * Obtiene el número de la venta a la que pertenece el detalle.
      *
@@ -77,7 +77,7 @@ public class DetalleVenta {
     public int getNoVenta() {
         return noVenta;
     }
- 
+
     /**
      * Establece el número de la venta a la que pertenece el detalle.
      *
@@ -86,7 +86,7 @@ public class DetalleVenta {
     public void setNoVenta(int noVenta) {
         this.noVenta = noVenta;
     }
- 
+
     /**
      * Obtiene el ISBN del libro vendido.
      *
@@ -95,7 +95,7 @@ public class DetalleVenta {
     public String getIsbn() {
         return isbn;
     }
- 
+
     /**
      * Establece el ISBN del libro vendido.
      *
@@ -104,7 +104,7 @@ public class DetalleVenta {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
- 
+
     /**
      * Obtiene la cantidad de ejemplares vendidos.
      *
@@ -113,7 +113,7 @@ public class DetalleVenta {
     public int getCantidad() {
         return cantidad;
     }
- 
+
     /**
      * Establece la cantidad de ejemplares vendidos.
      *
@@ -122,7 +122,7 @@ public class DetalleVenta {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
- 
+
     /**
      * Obtiene el precio unitario aplicado en la venta.
      *
@@ -131,7 +131,7 @@ public class DetalleVenta {
     public double getPrecio() {
         return precio;
     }
- 
+
     /**
      * Establece el precio unitario aplicado en la venta.
      *
