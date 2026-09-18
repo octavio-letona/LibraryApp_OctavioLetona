@@ -27,38 +27,6 @@ public class Autor {
     /** Reseña biográfica del autor. */
     private String biografia;
  
-
-/**
- * Representa a un autor de libros dentro del sistema de la librería.
- * Almacena sus datos de identificación, su nacionalidad y una breve
- * biografía. Se relaciona con los libros a través de {@link AutorLibro}.
- *
- * @author Octavio Letona
- * @version 1.0.0
- * @see AutorLibro
- * @see Libro
- */
-public class Autor {
-
-    /** Identificador único del autor en la base de datos. */
-    private int idAutor;
-
-    /** Nombre(s) de pila del autor. */
-    private String nombreAutor;
-
-    /** Apellido(s) del autor. */
-    private String apellidoAutor;
-
-    /** País o nacionalidad de origen del autor. */
-    private String nacionalidad;
-
-    /** Reseña biográfica del autor. */
-    private String biografia;
-
-    /**
-     * Constructor vacío. Crea un autor sin datos inicializados; los valores
-     * se pueden asignar posteriormente mediante los métodos setter.
-     */
     public Autor() {
     }
 
