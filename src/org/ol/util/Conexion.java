@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.ol.util;
-
 /**
+ * Representa a la conexion junto a JDBC para conecta a la base de datos.
  *
- * @author informatica
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see Conexion
  */
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +26,9 @@ public class Conexion {
     private final String user;
     private final String password;
 
-    //Constructor privado para evitar que hagan "new Conexion()" fuera de esta clase
+
+
+    /** Constructor privado para evitar que hagan "new Conexion()" fuera de esta clase */
     private Conexion() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -53,7 +57,12 @@ public class Conexion {
         }
     }
 
-    //Método público estático para obtener la única instancia del Gestor
+
+    /**
+     * Método público estático para obtener la única instancia del Gestor
+     *
+     * @return
+     */
     public static synchronized Conexion getInstancia() {
         if (instancia == null) {
             instancia = new Conexion();
@@ -61,7 +70,12 @@ public class Conexion {
         return instancia;
     }
 
-    //Método para entregar una conexión fresca cada vez que se pida
+
+    /**
+     *Método para entregar una conexión fresca cada vez que se pida
+     * @return
+     * @throws SQLException
+     */
     public Connection conectar() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }

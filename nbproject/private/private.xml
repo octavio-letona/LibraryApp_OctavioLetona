@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/model/Categoria.java</file>
             <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/CUESTIONARIO.md</file>
+            <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/model/Autor.java</file>
             <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/util/Conexion.java</file>
             <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/util/SecurityUtil.java</file>
             <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/GLOSARIO.md</file>
+            <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/model/Cliente.java</file>
             <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/model/Libro.java</file>
             <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/COMPONENTES.md</file>
+            <file>file:/C:/octavio%20letona/s6/LibraryApp_OctavioLetona/src/org/ol/model/AutorLibro.java</file>
         </group>
     </open-files>
 </project-private>
