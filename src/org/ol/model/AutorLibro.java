@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package org.ol.model;
 
 /**
@@ -31,19 +28,31 @@ public class AutorLibro {
      * inicializados; los valores se pueden asignar mediante los setter.
      */
     public AutorLibro() {
+
     }
 
     /**
+     *
      * Constructor parametrizado. Crea una relación entre un autor y un libro.
      *
+     *
+     *
      * @param idAutorLibro identificador único del registro de la relación
-     * @param idAutor      identificador del autor; debe existir en la tabla de autores
-     * @param isbn         ISBN del libro; debe existir en la tabla de libros
+     *
+     * @param idAutor identificador del autor; debe existir en la tabla de
+     * autores
+     *
+     * @param isbn ISBN del libro; debe existir en la tabla de libros
+     *
      */
     public AutorLibro(int idAutorLibro, int idAutor, String isbn) {
+
         this.idAutorLibro = idAutorLibro;
+
         this.idAutor = idAutor;
+
         this.isbn = isbn;
+
     }
 
     /**
@@ -52,7 +61,9 @@ public class AutorLibro {
      * @return el identificador de la relación autor-libro
      */
     public int getIdAutorLibro() {
+
         return idAutorLibro;
+
     }
 
     /**
@@ -61,7 +72,9 @@ public class AutorLibro {
      * @param idAutorLibro nuevo identificador de la relación autor-libro
      */
     public void setIdAutorLibro(int idAutorLibro) {
+
         this.idAutorLibro = idAutorLibro;
+
     }
 
     /**
@@ -70,7 +83,9 @@ public class AutorLibro {
      * @return el identificador del autor
      */
     public int getIdAutor() {
+
         return idAutor;
+
     }
 
     /**
@@ -79,7 +94,9 @@ public class AutorLibro {
      * @param idAutor nuevo identificador del autor; debe existir en la tabla de autores
      */
     public void setIdAutor(int idAutor) {
+
         this.idAutor = idAutor;
+
     }
 
     /**
@@ -88,7 +105,9 @@ public class AutorLibro {
      * @return el ISBN del libro
      */
     public String getIsbn() {
+
         return isbn;
+
     }
 
     /**
@@ -97,6 +116,9 @@ public class AutorLibro {
      * @param isbn nuevo ISBN del libro; debe existir en la tabla de libros
      */
     public void setIsbn(String isbn) {
+
         this.isbn = isbn;
+
     }
+
 }
