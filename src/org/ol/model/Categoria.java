@@ -3,30 +3,30 @@
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
 package org.ol.model;
- 
+
 /**
-* Representa una categoría o género en el que se clasifican los libros de
-* la librería (por ejemplo: novela, ciencia, historia).
-*
-* @author Octavio Letona
-* @version 1.0.0
-* @see Libro
-*/
+ * Representa una categoría o género en el que se clasifican los libros de
+ * la librería (por ejemplo: novela, ciencia, historia).
+ *
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see Libro
+ */
 public class Categoria {
- 
+
     /** Identificador único de la categoría en la base de datos. */
     private int idCategoria;
- 
+
     /** Nombre descriptivo de la categoría. */
     private String nombreCategoria;
- 
+
     /**
      * Constructor vacío. Crea una categoría sin datos inicializados; los
      * valores se pueden asignar posteriormente mediante los métodos setter.
      */
     public Categoria() {
     }
- 
+
     /**
      * Constructor parametrizado. Crea una categoría con todos sus datos.
      *
@@ -37,7 +37,7 @@ public class Categoria {
         this.idCategoria = idCategoria;
         this.nombreCategoria = nombreCategoria;
     }
- 
+
     /**
      * Obtiene el identificador único de la categoría.
      *
@@ -46,7 +46,7 @@ public class Categoria {
     public int getIdCategoria() {
         return idCategoria;
     }
- 
+
     /**
      * Establece el identificador único de la categoría.
      *
@@ -55,7 +55,7 @@ public class Categoria {
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
- 
+
     /**
      * Obtiene el nombre de la categoría.
      *
@@ -64,7 +64,7 @@ public class Categoria {
     public String getNombreCategoria() {
         return nombreCategoria;
     }
- 
+
     /**
      * Establece el nombre de la categoría.
      *
@@ -73,7 +73,7 @@ public class Categoria {
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
- 
+
     /**
      * Devuelve la representación en texto de la categoría, que corresponde
      * a su nombre. Es el texto que se muestra, por ejemplo, en los ComboBox
