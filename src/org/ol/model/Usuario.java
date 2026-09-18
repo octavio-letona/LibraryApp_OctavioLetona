@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 /**
  * Representa a un usuario del sistema (por ejemplo, un empleado que inicia
- * sesión y atiende ventas). Guarda sus credenciales, datos personales, rol y
- * estado. Es un POJO: atributos privados, constructores y métodos de acceso
- * (get y set).
+ * sesión y atiende ventas). Guarda sus credenciales, datos personales, rol
+ * y estado. Es un POJO: atributos privados, constructores y métodos de
+ * acceso (get y set).
  *
  * @author Octavio Letona
  * @version 1.0.0
@@ -14,66 +14,47 @@ import java.sql.Timestamp;
  */
 public class Usuario {
 
-    /**
-     * Identificador único del usuario en la base de datos.
-     */
+    /** Identificador único del usuario en la base de datos. */
     private int id;
 
-    /**
-     * Nombre de usuario utilizado para iniciar sesión.
-     */
+    /** Nombre de usuario utilizado para iniciar sesión. */
     private String username;
 
-    /**
-     * Correo electrónico del usuario.
-     */
+    /** Correo electrónico del usuario. */
     private String email;
 
-    /**
-     * Nombre(s) de pila del usuario.
-     */
+    /** Nombre(s) de pila del usuario. */
     private String firstName;
 
-    /**
-     * Apellido(s) del usuario.
-     */
+    /** Apellido(s) del usuario. */
     private String lastName;
 
-    /**
-     * Hash de la contraseña; nunca se almacena la contraseña en texto plano.
-     */
+    /** Hash de la contraseña; nunca se almacena la contraseña en texto plano. */
     private String passwordHash;
 
-    /**
-     * Rol del usuario dentro del sistema, que define sus permisos.
-     */
+    /** Rol del usuario dentro del sistema, que define sus permisos. */
     private String rol;
 
-    /**
-     * Indica si la cuenta está activa ({@code true}) o deshabilitada
-     * ({@code false}).
-     */
+    /** Indica si la cuenta está activa ({@code true}) o deshabilitada ({@code false}). */
     private boolean activo;
 
-    /**
-     * Fecha y hora en que se creó la cuenta.
-     */
+    /** Fecha y hora en que se creó la cuenta. */
     private Timestamp fechaCreacion;
 
     /**
-     * Constructor vacío. Crea un usuario sin datos inicializados; los valores
-     * se pueden asignar posteriormente mediante los métodos setter.
+     * Constructor vacío. Crea un usuario sin datos inicializados; los
+     * valores se pueden asignar posteriormente mediante los métodos setter.
      */
     public Usuario() {
     }
 
     /**
-     * Constructor con los datos mínimos de identificación. Los demás atributos
-     * conservan su valor por defecto.
+     * Constructor con los datos mínimos de identificación. Los demás
+     * atributos conservan su valor por defecto.
      *
-     * @param id identificador único del usuario; debe ser un entero positivo
+     * @param id       identificador único del usuario; debe ser un entero positivo
      * @param username nombre de usuario para iniciar sesión
-     * @param rol rol del usuario dentro del sistema
+     * @param rol      rol del usuario dentro del sistema
      */
     public Usuario(int id, String username, String rol) {
         this.id = id;
@@ -82,18 +63,16 @@ public class Usuario {
     }
 
     /**
-     * Constructor para registrar un usuario nuevo. No recibe el identificador,
-     * la fecha de creación ni el estado, porque se asignan al guardarlo en la
-     * base de datos.
+     * Constructor para registrar un usuario nuevo. No recibe el
+     * identificador, la fecha de creación ni el estado, porque se asignan
+     * al guardarlo en la base de datos.
      *
-     * @param username nombre de usuario para iniciar sesión
-     * @param email correo electrónico; se espera un formato válido
-     * (usuario@dominio)
-     * @param firstName nombre(s) de pila del usuario
-     * @param lastName apellido(s) del usuario
-     * @param passwordHash hash de la contraseña; no debe ser la contraseña en
-     * texto plano
-     * @param rol rol del usuario dentro del sistema
+     * @param username     nombre de usuario para iniciar sesión
+     * @param email        correo electrónico; se espera un formato válido (usuario@dominio)
+     * @param firstName    nombre(s) de pila del usuario
+     * @param lastName     apellido(s) del usuario
+     * @param passwordHash hash de la contraseña; no debe ser la contraseña en texto plano
+     * @param rol          rol del usuario dentro del sistema
      */
     public Usuario(String username, String email, String firstName, String lastName,
             String passwordHash, String rol) {
@@ -171,8 +150,7 @@ public class Usuario {
     /**
      * Establece el correo electrónico del usuario.
      *
-     * @param email nuevo correo electrónico; se espera un formato válido
-     * (usuario@dominio)
+     * @param email nuevo correo electrónico; se espera un formato válido (usuario@dominio)
      */
     public void setEmail(String email) {
         this.email = email;
@@ -226,8 +204,7 @@ public class Usuario {
     /**
      * Establece el hash de la contraseña del usuario.
      *
-     * @param passwordHash nuevo hash de la contraseña; no debe ser la
-     * contraseña en texto plano
+     * @param passwordHash nuevo hash de la contraseña; no debe ser la contraseña en texto plano
      */
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
@@ -236,8 +213,7 @@ public class Usuario {
     /**
      * Indica si la cuenta del usuario está activa.
      *
-     * @return {@code true} si la cuenta está activa; {@code false} en caso
-     * contrario
+     * @return {@code true} si la cuenta está activa; {@code false} en caso contrario
      */
     public boolean isActivo() {
         return activo;
@@ -246,8 +222,7 @@ public class Usuario {
     /**
      * Establece si la cuenta del usuario está activa.
      *
-     * @param activo {@code true} para activar la cuenta; {@code false} para
-     * deshabilitarla
+     * @param activo {@code true} para activar la cuenta; {@code false} para deshabilitarla
      */
     public void setActivo(boolean activo) {
         this.activo = activo;
