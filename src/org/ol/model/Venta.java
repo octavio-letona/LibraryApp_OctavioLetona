@@ -2,8 +2,8 @@ package org.ol.model;
 
 /**
  * Representa el encabezado de una venta realizada en la librería: su número,
- * fecha, total, el cliente que compró y el usuario que la registró. Los libros
- * vendidos se detallan en objetos {@link DetalleVenta}.
+ * fecha, total, el cliente que compró y el usuario que la registró. Los
+ * libros vendidos se detallan en objetos {@link DetalleVenta}.
  *
  * @author Octavio Letona
  * @version 1.0.0
@@ -13,36 +13,24 @@ package org.ol.model;
  */
 public class Venta {
 
-    /**
-     * Número único de la venta (llave primaria).
-     */
+    /** Número único de la venta (llave primaria). */
     private int noVenta;
 
-    /**
-     * Fecha en que se realizó la venta, almacenada como texto.
-     */
+    /** Fecha en que se realizó la venta, almacenada como texto. */
     private String fechaVenta;
 
-    /**
-     * Monto total de la venta.
-     */
+    /** Monto total de la venta. */
     private double totalVenta;
 
-    /**
-     * CUI del cliente que realizó la compra; referencia a
-     * {@link Cliente#getCui()}.
-     */
+    /** CUI del cliente que realizó la compra; referencia a {@link Cliente#getCui()}. */
     private long cuiCliente;
 
-    /**
-     * Identificador del usuario que registró la venta; referencia a
-     * {@link Usuario#getId()}.
-     */
+    /** Identificador del usuario que registró la venta; referencia a {@link Usuario#getId()}. */
     private int idUsuario;
 
     /**
-     * Constructor vacío. Crea una venta sin datos inicializados; los valores se
-     * pueden asignar posteriormente mediante los métodos setter.
+     * Constructor vacío. Crea una venta sin datos inicializados; los
+     * valores se pueden asignar posteriormente mediante los métodos setter.
      */
     public Venta() {
     }
@@ -50,12 +38,11 @@ public class Venta {
     /**
      * Constructor parametrizado. Crea una venta con todos sus datos.
      *
-     * @param noVenta número único de la venta; debe ser un entero positivo
+     * @param noVenta    número único de la venta; debe ser un entero positivo
      * @param fechaVenta fecha de la venta, como texto
      * @param totalVenta monto total de la venta; no puede ser negativo
      * @param cuiCliente CUI del cliente; debe existir en la tabla de clientes
-     * @param idUsuario identificador del usuario que registró la venta; debe
-     * existir en la tabla de usuarios
+     * @param idUsuario  identificador del usuario que registró la venta; debe existir en la tabla de usuarios
      */
     public Venta(int noVenta, String fechaVenta, double totalVenta, long cuiCliente, int idUsuario) {
         this.noVenta = noVenta;
@@ -131,8 +118,7 @@ public class Venta {
     /**
      * Establece el CUI del cliente que realizó la compra.
      *
-     * @param cuiCliente nuevo CUI del cliente; debe existir en la tabla de
-     * clientes
+     * @param cuiCliente nuevo CUI del cliente; debe existir en la tabla de clientes
      */
     public void setCuiCliente(long cuiCliente) {
         this.cuiCliente = cuiCliente;
@@ -150,8 +136,7 @@ public class Venta {
     /**
      * Establece el identificador del usuario que registró la venta.
      *
-     * @param idUsuario nuevo identificador del usuario; debe existir en la
-     * tabla de usuarios
+     * @param idUsuario nuevo identificador del usuario; debe existir en la tabla de usuarios
      */
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
