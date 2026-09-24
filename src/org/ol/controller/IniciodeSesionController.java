@@ -96,7 +96,6 @@ public class IniciodeSesionController implements Initializable {
      * 6. Si falla, muestra un mensaje de error
      * 
      * @param evento ActionEvent generado por el botón Iniciar Sesión o presionar Enter
-     * @throws ValidacionException si los campos están vacíos
      * @throws DaoException si ocurre un error al acceder a la base de datos
      * @see SecurityUtil#hashSHA256(String)
      * @see UsuarioDAO#iniciarSesion(String, String)
@@ -134,7 +133,6 @@ public class IniciodeSesionController implements Initializable {
      * Si ocurre un error al cargar la vista de registro, muestra un mensaje de error.
      * 
      * @param evento ActionEvent generado por el botón Registrarse
-     * @throws IOException si ocurre un error al cargar el archivo FXML de registro
      * @see Main#cambiarEscena(String)
      */
     @FXML
