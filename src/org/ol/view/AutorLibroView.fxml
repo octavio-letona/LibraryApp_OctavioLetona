@@ -12,9 +12,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ol.controller.AutorLibroViewController">
-    <stylesheets>
-        <URL value="@autorlibroview.css"/>
-    </stylesheets>
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
