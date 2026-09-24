@@ -1,10 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
-
 package org.ol.dao.impl;
-
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -16,8 +10,22 @@ import org.ol.exception.DaoException;
 import org.ol.model.Autor;
 import org.ol.util.Conexion;
 
+/**
+ * Implementación de la interfaz AutorDAO para gestionar las operaciones 
+ * de persistencia (CRUD) de la entidad Autor en la base de datos MySQL.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.dao.AutorDAO
+ */
 public class AutorDAOImpl implements AutorDAO {
 
+    /**
+     * Obtiene la lista completa de autores registrados en el sistema.
+     * 
+     * @return Un ArrayList de objetos Autor.
+     * @throws DaoException Si ocurre un error de SQL al consultar los registros.
+     */
     @Override
     public ArrayList<Autor> listarTodos() {
         ArrayList<Autor> lista = new ArrayList<>();
@@ -40,6 +48,13 @@ public class AutorDAOImpl implements AutorDAO {
         return lista;
     }
 
+    /**
+     * Busca y obtiene los datos de un autor específico por su ID.
+     * 
+     * @param idAutor El identificador único del autor.
+     * @return El objeto Autor encontrado o null si no existe.
+     * @throws DaoException Si ocurre un error de SQL durante la búsqueda.
+     */
     @Override
     public Autor buscarPorId(Integer idAutor) {
         Autor a = null;
@@ -63,6 +78,13 @@ public class AutorDAOImpl implements AutorDAO {
         return a;
     }
 
+    /**
+     * Registra un nuevo autor en la base de datos.
+     * 
+     * @param autor El objeto Autor con la información a insertar.
+     * @return true si la inserción fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al ejecutar el procedimiento almacenado.
+     */
     @Override
     public boolean crear(Autor autor) {
         String sql = "{call sp_insertarautor(?,?,?,?)}";
@@ -78,6 +100,13 @@ public class AutorDAOImpl implements AutorDAO {
         }
     }
 
+    /**
+     * Actualiza los datos de un autor existente.
+     * 
+     * @param autor El objeto Autor con los datos modificados.
+     * @return true si se actualizó al menos un registro; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al actualizar los datos.
+     */
     @Override
     public boolean actualizar(Autor autor) {
         String sql = "{call sp_actualizarautor(?,?,?,?,?)}";
@@ -94,6 +123,13 @@ public class AutorDAOImpl implements AutorDAO {
         }
     }
 
+    /**
+     * Elimina el registro de un autor de la base de datos mediante su ID.
+     * 
+     * @param idAutor El identificador único del autor a eliminar.
+     * @return true si la eliminación fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al procesar la eliminación.
+     */
     @Override
     public boolean eliminar(Integer idAutor) {
         String sql = "{call sp_eliminarautor(?)}";

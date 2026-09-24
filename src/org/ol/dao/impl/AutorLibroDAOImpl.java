@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.ol.dao.impl;
-
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,8 +10,22 @@ import org.ol.exception.DaoException;
 import org.ol.model.AutorLibro;
 import org.ol.util.Conexion;
 
+/**
+ * Implementación de la interfaz AutorLibroDAO para gestionar las relaciones 
+ * entre autores y libros en la base de datos MySQL.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.dao.AutorLibroDAO
+ */
 public class AutorLibroDAOImpl implements AutorLibroDAO {
 
+    /**
+     * Obtiene la lista completa de relaciones entre autores y libros registradas en el sistema.
+     * 
+     * @return Un ArrayList de objetos AutorLibro.
+     * @throws DaoException Si ocurre un error de SQL al consultar los registros.
+     */
     @Override
     public ArrayList<AutorLibro> listarTodos() {
         ArrayList<AutorLibro> lista = new ArrayList<>();
@@ -37,6 +46,13 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
         return lista;
     }
 
+    /**
+     * Busca y obtiene la relación entre un autor y un libro según su ID único.
+     * 
+     * @param idAutorLibro El identificador único del registro AutorLibro.
+     * @return El objeto AutorLibro encontrado o null si no existe.
+     * @throws DaoException Si ocurre un error de SQL durante la búsqueda.
+     */
     @Override
     public AutorLibro buscarPorId(Integer idAutorLibro) {
         AutorLibro al = null;
@@ -58,6 +74,13 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
         return al;
     }
 
+    /**
+     * Registra una nueva asignación de autor a un libro en la base de datos.
+     * 
+     * @param autorLibro El objeto AutorLibro con la información a insertar.
+     * @return true si la inserción fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al ejecutar el procedimiento almacenado.
+     */
     @Override
     public boolean crear(AutorLibro autorLibro) {
         String sql = "{call sp_insertarautorlibro(?,?)}";
@@ -71,6 +94,13 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
         }
     }
 
+    /**
+     * Actualiza la información de una relación autor-libro existente.
+     * 
+     * @param autorLibro El objeto AutorLibro con los datos modificados.
+     * @return true si se actualizó al menos un registro; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al ejecutar la actualización.
+     */
     @Override
     public boolean actualizar(AutorLibro autorLibro) {
         String sql = "{call sp_actualizarautorlibro(?,?,?)}";
@@ -85,6 +115,13 @@ public class AutorLibroDAOImpl implements AutorLibroDAO {
         }
     }
 
+    /**
+     * Elimina el registro de una relación entre autor y libro mediante su ID.
+     * 
+     * @param idAutorLibro El identificador de la relación autor-libro a eliminar.
+     * @return true si la eliminación fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al procesar la eliminación.
+     */
     @Override
     public boolean eliminar(Integer idAutorLibro) {
         String sql = "{call sp_eliminarautorlibro(?)}";

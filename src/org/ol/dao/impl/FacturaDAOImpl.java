@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.ol.dao.impl;
 
 import java.sql.CallableStatement;
@@ -14,8 +10,23 @@ import org.ol.exception.DaoException;
 import org.ol.model.LineaFactura;
 import org.ol.util.Conexion;
 
+/**
+ * Implementación de la interfaz FacturaDAO para la consulta y obtención
+ * de los detalles de facturación en la base de datos MySQL.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.dao.FacturaDAO
+ */
 public class FacturaDAOImpl implements FacturaDAO {
 
+    /**
+     * Busca y obtiene las líneas de detalle pertenecientes a un número de venta específico.
+     * 
+     * @param noVenta El número identificador de la venta/factura a consultar.
+     * @return Un ArrayList de objetos LineaFactura con el desglose de la factura.
+     * @throws DaoException Si ocurre un error de SQL durante la búsqueda de la factura.
+     */
     @Override
     public ArrayList<LineaFactura> buscarFactura(int noVenta) {
         ArrayList<LineaFactura> lista = new ArrayList<>();

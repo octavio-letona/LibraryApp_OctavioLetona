@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.ol.dao.impl;
 
 import java.sql.CallableStatement;
@@ -15,17 +11,29 @@ import org.ol.exception.DaoException;
 import org.ol.model.Usuario;
 import org.ol.util.Conexion;
 
-//Data Acces Object, Objeto de acceso a los datos --> MYSQl usando Conexion
+/**
+ * Implementación de la interfaz UsuarioDAO para gestionar el acceso a datos,
+ * autenticación y administración de usuarios en la base de datos MySQL.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.dao.UsuarioDAO
+ */
 public class UsuarioDAOImpl implements UsuarioDAO {
 
-    //inicioSesion
+    /**
+     * Autentica a un usuario en el sistema validando sus credenciales de acceso.
+     * 
+     * @param usernarme El nombre de usuario ingresado.
+     * @param passwordHash La contraseña encriptada o hash correspondiente al usuario.
+     * @return Un objeto Usuario cargado con ID, username y rol si las credenciales son válidas; null en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL durante el proceso de autenticación.
+     */
     @Override
     public Usuario iniciarSesion(String usernarme, String passwordHash) {
         Usuario usuario = null;
         String sql = "{call sp_iniciar_sesion(?,?)}";
 
-        //try-with-resources -- al final el try, los recursos se cierran auto
-        //recursos: Connection, ResulSet
         try (Connection conexion = Conexion.getInstancia().conectar();
                 CallableStatement consulta = conexion.prepareCall(sql)) {
 
@@ -33,9 +41,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             consulta.setString(2, passwordHash);
 
             try (ResultSet tablaResultado = consulta.executeQuery()) {
-                //comprobar que haya algo en el resultado
                 if (tablaResultado.next()) {
-                    //verdadero hay algo(datos) Mapear
                     usuario = new Usuario();
                     usuario.setId(tablaResultado.getInt(1));
                     usuario.setUsername(tablaResultado.getString(2));
@@ -49,7 +55,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         return usuario;
     }
 
-    //crearUsuario
+    /**
+     * Registra un nuevo usuario dentro del sistema.
+     * 
+     * @param usuario El objeto Usuario que contiene la información completa a registrar.
+     * @return true si el registro fue insertado con éxito; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al intentar registrar el usuario.
+     */
     @Override
     public boolean crearUsuario(Usuario usuario) {
         String sql = "{call sp_crear_usuario(?,?,?,?,?,?)}";
@@ -68,7 +80,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
     }
 
-    //actualizarUsuario
+    /**
+     * Actualiza la información personal, rol y estado de un usuario existente.
+     * 
+     * @param usuario El objeto Usuario con los datos modificados.
+     * @return true si la actualización modificó al menos una fila; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al actualizar los datos.
+     */
     @Override
     public boolean actualizarUsuario(Usuario usuario) {
         String sql = "{call sp_actualizar_usuario(?,?,?,?,?,?,?)}";
@@ -88,7 +106,14 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
     }
 
-    //cambiarPassword
+    /**
+     * Actualiza únicamente la clave de acceso de un usuario en particular.
+     * 
+     * @param idUsuario El identificador único del usuario.
+     * @param passwordHash El nuevo hash de la contraseña a guardar.
+     * @return true si el cambio de clave fue exitoso; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al ejecutar el cambio de clave.
+     */
     @Override
     public boolean cambiarPassword(int idUsuario, String passwordHash) {
         String sql = "{call sp_cambiar_password(?,?)}";
@@ -103,7 +128,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
     }
 
-    //desactivarUsuario
+    /**
+     * Cambia el estado de un usuario a inactivo para impedir su acceso al sistema.
+     * 
+     * @param idUsuario El identificador único del usuario a desactivar.
+     * @return true si la operación se completó correctamente; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL durante la desactivación.
+     */
     @Override
     public boolean desactivarUsuario(int idUsuario) {
         String sql = "{call sp_desactivar_usuario(?)}";
@@ -117,7 +148,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
     }
 
-    //eliminarUsuario
+    /**
+     * Elimina el registro de un usuario de manera definitiva de la base de datos.
+     * 
+     * @param idUsuario El identificador único del usuario a eliminar.
+     * @return true si el registro fue borrado exitosamente; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL durante la eliminación del usuario.
+     */
     @Override
     public boolean eliminarUsuario(int idUsuario) {
         String sql = "{call sp_eliminar_usuario(?)}";
@@ -131,7 +168,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
     }
 
-    //listarTodosUsuarios
+    /**
+     * Obtiene el listado completo de todos los usuarios registrados en el sistema.
+     * 
+     * @return Una lista de tipo ArrayList con todos los objetos Usuario recuperados.
+     * @throws DaoException Si ocurre un error de SQL al consultar los registros.
+     */
     @Override
     public ArrayList<Usuario> listarTodosUsuarios() {
         ArrayList<Usuario> lista = new ArrayList<>();
@@ -157,7 +199,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         return lista;
     }
 
-    //obtenerUsuarioPorId
+    /**
+     * Busca y obtiene la información de un usuario específico a partir de su ID.
+     * 
+     * @param idUsuario El identificador único del usuario a consultar.
+     * @return El objeto Usuario con sus detalles completos, o null si no se encuentra.
+     * @throws DaoException Si ocurre un error de SQL al ejecutar la búsqueda.
+     */
     @Override
     public Usuario obtenerUsuarioPorId(int idUsuario) {
         Usuario usuario = null;
@@ -183,5 +231,4 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
         return usuario;
     }
-
 }

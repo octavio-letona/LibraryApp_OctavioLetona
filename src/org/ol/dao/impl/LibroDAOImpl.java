@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.ol.dao.impl;
-
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,8 +10,22 @@ import org.ol.exception.DaoException;
 import org.ol.model.Libro;
 import org.ol.util.Conexion;
 
+/**
+ * Implementación de la interfaz LibroDAO para gestionar las operaciones 
+ * de persistencia (CRUD) de la entidad Libro en la base de datos MySQL.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.dao.LibroDAO
+ */
 public class LibroDAOImpl implements LibroDAO {
 
+    /**
+     * Obtiene la lista completa de libros registrados en el sistema.
+     * 
+     * @return Un ArrayList de objetos Libro.
+     * @throws DaoException Si ocurre un error al ejecutar la consulta SQL.
+     */
     @Override
     public ArrayList<Libro> listarTodos() {
         ArrayList<Libro> lista = new ArrayList<>();
@@ -41,6 +50,13 @@ public class LibroDAOImpl implements LibroDAO {
         return lista;
     }
 
+    /**
+     * Busca los datos de un libro específico utilizando su código ISBN.
+     * 
+     * @param isbn El código ISBN identificador del libro.
+     * @return El objeto Libro encontrado o null si no existe.
+     * @throws DaoException Si ocurre un error al ejecutar la búsqueda SQL.
+     */
     @Override
     public Libro buscarPorId(String isbn) {
         Libro l = null;
@@ -66,6 +82,13 @@ public class LibroDAOImpl implements LibroDAO {
         return l;
     }
 
+    /**
+     * Inserta un nuevo registro de libro en la base de datos.
+     * 
+     * @param libro El objeto Libro que contiene la información a guardar.
+     * @return true si la inserción fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error al ejecutar el procedimiento almacenado.
+     */
     @Override
     public boolean crear(Libro libro) {
         String sql = "{call sp_crear_libro(?,?,?,?,?,?,?)}";
@@ -84,6 +107,13 @@ public class LibroDAOImpl implements LibroDAO {
         }
     }
 
+    /**
+     * Actualiza la información de un libro previamente registrado.
+     * 
+     * @param libro El objeto Libro con los datos modificados.
+     * @return true si la actualización modificó alguna fila; false en caso contrario.
+     * @throws DaoException Si ocurre un error al actualizar los datos en la base de datos.
+     */
     @Override
     public boolean actualizar(Libro libro) {
         String sql = "{call sp_actualizar_libro(?,?,?,?,?,?,?)}";
@@ -102,6 +132,13 @@ public class LibroDAOImpl implements LibroDAO {
         }
     }
 
+    /**
+     * Elimina el registro de un libro del sistema utilizando su código ISBN.
+     * 
+     * @param isbn El código ISBN del libro a eliminar.
+     * @return true si el registro fue borrado correctamente; false en caso contrario.
+     * @throws DaoException Si ocurre un error al procesar la eliminación SQL.
+     */
     @Override
     public boolean eliminar(String isbn) {
         String sql = "{call sp_eliminar_libro(?)}";

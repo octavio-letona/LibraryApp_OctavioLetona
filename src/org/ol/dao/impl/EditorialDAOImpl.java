@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.ol.dao.impl;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,8 +10,22 @@ import org.ol.exception.DaoException;
 import org.ol.model.Editorial;
 import org.ol.util.Conexion;
 
+/**
+ * Implementación de la interfaz EditorialDAO para gestionar las operaciones 
+ * de persistencia (CRUD) de la entidad Editorial en la base de datos MySQL.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.dao.EditorialDAO
+ */
 public class EditorialDAOImpl implements EditorialDAO {
 
+    /**
+     * Obtiene la lista completa de editoriales registradas en el sistema.
+     * 
+     * @return Un ArrayList de objetos Editorial.
+     * @throws DaoException Si ocurre un error de SQL durante la consulta.
+     */
     @Override
     public ArrayList<Editorial> listarTodos() {
         ArrayList<Editorial> lista = new ArrayList<>();
@@ -36,6 +47,13 @@ public class EditorialDAOImpl implements EditorialDAO {
         return lista;
     }
 
+    /**
+     * Busca y obtiene los datos de una editorial por su número de NIT.
+     * 
+     * @param nit El NIT identificador de la editorial.
+     * @return El objeto Editorial encontrado o null si no existe.
+     * @throws DaoException Si ocurre un error de SQL durante la búsqueda.
+     */
     @Override
     public Editorial buscarPorId(String nit) {
         Editorial e = null;
@@ -58,6 +76,13 @@ public class EditorialDAOImpl implements EditorialDAO {
         return e;
     }
 
+    /**
+     * Registra una nueva editorial en la base de datos.
+     * 
+     * @param editorial El objeto Editorial con la información a insertar.
+     * @return true si la inserción fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al ejecutar el procedimiento almacenado.
+     */
     @Override
     public boolean crear(Editorial editorial) {
         String sql = "{call sp_crear_editorial(?,?,?,?)}";
@@ -73,6 +98,13 @@ public class EditorialDAOImpl implements EditorialDAO {
         }
     }
 
+    /**
+     * Actualiza los datos de una editorial existente.
+     * 
+     * @param editorial El objeto Editorial con los datos modificados.
+     * @return true si se actualizó al menos una fila; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al actualizar el registro.
+     */
     @Override
     public boolean actualizar(Editorial editorial) {
         String sql = "{call sp_actualizar_editorial(?,?,?,?)}";
@@ -88,6 +120,13 @@ public class EditorialDAOImpl implements EditorialDAO {
         }
     }
 
+    /**
+     * Elimina el registro de una editorial mediante su número de NIT.
+     * 
+     * @param nit El NIT de la editorial a eliminar.
+     * @return true si la eliminación fue exitosa; false en caso contrario.
+     * @throws DaoException Si ocurre un error de SQL al procesar la eliminación.
+     */
     @Override
     public boolean eliminar(String nit) {
         String sql = "{call sp_eliminar_editorial(?)}";
