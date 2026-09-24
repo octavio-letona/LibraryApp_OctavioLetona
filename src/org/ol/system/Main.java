@@ -39,17 +39,17 @@ public class Main extends Application {
     public static String rutaDashboardSegunRol() {
         Usuario usuario = SesionContext.getInstancia().getUsuarioActual();
         if (usuario == null || usuario.getRol() == null) {
-            return "/org/ac/view/fxml/InicioSesionView.fxml";
+            return "/org/ol/view/IniciodeSesionView.fxml";
         }
         switch (usuario.getRol().toLowerCase()) {
             case "admin":
-                return "/org/ol/view/AdminDashboradView.fxml";
+                return "/org/ol/view/AdminDashboardView.fxml";
             case "empleado":
                 return "/org/ol/view/EmpleadoView.fxml";
             case "cajero":
                 return "/org/ol/view/CajeroView.fxml";
             default:
-                return "/org/ol/view/InicioSesionView.fxml";
+                return "/org/ol/view/IniciodeSesionView.fxml";
         }
     }
 
@@ -62,6 +62,6 @@ public class Main extends Application {
     @Override
     public void start(Stage escenarioPrincipal) throws Exception {
         Main.escenarioPrincipal = escenarioPrincipal;
-        cambiarEscena("/org/ac/view/fxml/InicioSesionView.fxml");
+        cambiarEscena("/org/ol/view/IniciodeSesionView.fxml");
     }
 }
