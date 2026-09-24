@@ -4,9 +4,8 @@
  */
 package org.ol.dao;
 
-import org.ol.model.Autor;
+import org.ol.model.AutorLibro;
 
-
-public interface AutorDAO extends Crud<Autor, Integer>{
+public interface AutorLibroDAO extends Crud<AutorLibro, Integer>{
     
 }
