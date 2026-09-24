@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package org.ol.system;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import javafx.application.Application;
@@ -10,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.util.logging.Logger;
 import org.ol.manager.SesionContext;
 import org.ol.model.Usuario;
@@ -22,8 +18,7 @@ public class Main extends Application {
 
     public static void cambiarEscena(String rutaFXML) throws IOException {
         log.log(Level.INFO, "Se cambio de escena a: {0}", rutaFXML);
-        Parent raiz = FXMLLoader.load(
-                Main.class.getResource(rutaFXML));
+        Parent raiz = FXMLLoader.load(Main.class.getResource(rutaFXML));
         Scene escena = new Scene(raiz);
         escenarioPrincipal.setScene(escena);
         escenarioPrincipal.sizeToScene();
@@ -56,7 +51,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         log.info("Se inicio el programa");
         launch(args);
-
     }
 
     @Override
