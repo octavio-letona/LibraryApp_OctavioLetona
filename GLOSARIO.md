@@ -27,3 +27,33 @@
 3. Definición en mis palabras: Es como meter un dato simple (primitivo) dentro de una cajita (objeto) para que adquiera métodos útiles y pueda entrar a estructuras de datos que son exclusivas ("VIP") para puros objetos.
 4. Ubicación en el código: Al utilizar colecciones en los DAO o controladores, y al hacer conversiones de texto a número (ej. Integer.parseInt(textField.getText());).
 5. Ejemplo práctico & problema que resuelve: En Java, estructuras como un ArrayList no aceptan tipos primitivos; no puedes hacer ArrayList<int>. La clase Wrapper resuelve este problema permitiendo declarar ArrayList<Integer>, además de resolver la necesidad de convertir cadenas de texto provenientes de una interfaz gráfica (JavaFX) a valores numéricos.
+
+1.Término técnico: DAO (Data Access Object)
+2.Definición formal: Patrón de diseño que separa la interfaz de programación de aplicaciones (API) y la lógica de negocio de la infraestructura de persistencia o acceso a la base de datos.
+3.Definición en mis palabras: Es una de las maneras que tenemos de comunicar Java con nuestra base de datos. Sirve como un puente e intermediario especializado entre nuestra aplicación y la base de datos.
+4.Ubicación en el código: En la interfaz y clases del paquete DAO al momento de conectar el modelo con la persistencia (ej. LibroDAO.java, LibroDAOImpl.java).
+5.Ejemplo práctico & problema que resuelve: Se utilizan como una manera de conectar y gestionar las operaciones CRUD de la base de datos. Resuelve el problema del acoplamiento directo entre la interfaz/lógica y la base de datos.
+
+1.Término técnico: JDBC (Java Database Connectivity)
+2.Definición formal: Interfaz de programación de aplicaciones (API) estándar de Java que permite conectar un programa desarrollado en Java con una base de datos relacional.
+3.Definición en mis palabras: Es una API que funciona como una capa intermedia o cable estándar para enviar consultas SQL y recibir respuestas de la base de datos.
+4.Ubicación en el código: En la clase de conexión y métodos DAO mediante importaciones del paquete java.sql.* (ej. java.sql.Connection, java.sql.DriverManager).
+5.Ejemplo práctico & problema que resuelve: Permite la comunicación nativa entre Java y motores como MySQL. Resuelve principalmente el problema de la falta de un estándar único para conectar aplicaciones Java con diferentes sistemas gestores de bases de datos.
+
+1.Término técnico: Singleton
+2.Definición formal: Patrón de diseño creacional que garantiza que una clase tenga una sola instancia en todo el programa y ofrece un punto de acceso global a ella.
+3.Definición en mis palabras: Es un patrón que nos ayuda a garantizar que una clase se conecte una sola vez y que esa misma instancia sea reutilizada por las demás clases.
+4.Ubicación en el código: Se encuentra en la clase de gestión de conexión a la base de datos (ej. src/main/java/conexion/Conexion.java en el método getInstance()).
+5.Ejemplo práctico & problema que resuelve: Se aplica al abrir la conexión a MySQL. Resuelve el problema del consumo excesivo de memoria y la saturación del servidor por abrir múltiples conexiones innecesarias.
+
+1.Término técnico: PreparedStatement
+2.Definición formal: Interfaz en Java (perteneciente al paquete java.sql) que representa una sentencia SQL precompilada y parametrizada en el servidor de base de datos.
+3.Definición en mis palabras: Es una plantilla de consulta SQL parametrizada con signos de interrogación (?) que sustituyen los valores reales de forma segura.
+4.Ubicación en el código: Se encuentra dentro de los métodos de las clases DAO cuando se construyen y ejecutan las consultas SQL (ej. LibroDAOImpl.java).
+5.Ejemplo práctico & problema que resuelve: Se usa en consultas de inserción, modificación o búsqueda con parámetros. Resuelve dos problemas críticos: la inyección SQL (seguridad) y el rendimiento en consultas repetitivas.
+
+1.Término técnico: Inyección SQL
+2.Definición formal: Vulnerabilidad de seguridad en la que un atacante inserta código SQL malicioso a través de los campos de entrada de datos de la aplicación para manipular la consulta ejecutada en la base de datos.
+3.Definición en mis palabras: Es un ataque donde un usuario escribe comandos SQL en un cuadro de texto (como un campo de login o búsqueda) para engañar al sistema y acceder o borrar datos sin permiso.
+4.Ubicación en el código: Se previene en el código de nuestros DAO (ej. LibroDAOImpl.java) utilizando PreparedStatement en lugar de concatenar cadenas directamente.
+5.Ejemplo práctico & problema que resuelve: Ocurre al concatenar variables directamente en un String de SQL ("WHERE user = '" + input + "'"). El uso de consultas preparadas resuelve esta vulnerabilidad al tratar los datos de entrada estrictamente como valores y no como instrucciones ejecutables.

@@ -143,3 +143,54 @@ Bitácora de investigación y análisis arquitectónico de cada clase, interfaz 
       DetalleVenta[DetalleVenta.java] --> Venta[Venta.java]
       Venta -->|Persistencia| VentaDAO[org.ol.dao.VentaDAO]
   ```
+
+## 10. Conexion.java
+
+* **Nombre de la clase / paquete:** `org.ol.util.Conexion` (Paquete `org.ol.util`)
+* **Capa arquitectónica (MVC/DAO):** Configuración / Persistencia (`Util` / Conexión BD)
+* **Responsabilidad única:** Gestionar el ciclo de vida de la conexión a la base de datos MySQL utilizando JDBC, implementando el patrón Singleton para asegurar una única instancia de conexión activa en el sistema.
+* **Dependencias directas:**
+  * `java.sql.Connection`
+  * `java.sql.DriverManager`
+  * `java.sql.SQLException`
+* **Diagrama/Flujo del dato:**
+```mermaid
+graph LR
+    DAO[org.ol.dao.impl.LibroDAOImpl] -->|Solicita Conexión| Conexion[Conexion.java]
+    Conexion -->|DriverManager.getConnection| MySQL[(Base de Datos MySQL)]
+```
+
+## 11. LibroDAO.java
+
+* **Nombre de la clase / paquete:** `org.ol.dao.LibroDAO` (Paquete `org.ol.dao`)
+* **Capa arquitectónica (MVC/DAO):** Persistencia (`DAO` / Interfaz)
+* **Responsabilidad única:** Definir el contrato abstracto de operaciones CRUD (listar, guardar, actualizar, eliminar) para la entidad `Libro`, independizando la lógica de negocio de la tecnología de acceso a datos.
+* **Dependencias directas:**
+  * `Libro.java`
+  * `java.util.List`
+* **Diagrama/Flujo del dato:**
+```mermaid
+graph LR
+    Controller[org.ol.controller.LibroController] -->|Usa Interfaz| LibroDAO[LibroDAO.java]
+    LibroDAO <|.. LibroDAOImpl[org.ol.dao.impl.LibroDAOImpl]
+```
+
+## 12. LibroDAOImpl.java
+
+* **Nombre de la clase / paquete:** `org.ol.dao.impl.LibroDAOImpl` (Paquete `org.ol.dao.impl`)
+* **Capa arquitectónica (MVC/DAO):** Persistencia (`DAO` / Implementación JDBC)
+* **Responsabilidad única:** Implementar las operaciones CRUD definidas en `LibroDAO` ejecutando sentencias SQL precompiladas (`PreparedStatement`) sobre MySQL y mapeando las filas resultantes (`ResultSet`) a objetos `Libro`.
+* **Dependencias directas:**
+  * `LibroDAO.java`
+  * `Libro.java`
+  * `Conexion.java`
+  * `java.sql.PreparedStatement`
+  * `java.sql.ResultSet`
+* **Diagrama/Flujo del dato:**
+```mermaid
+graph TD
+    LibroDAOImpl[LibroDAOImpl.java] -->|Obtiene Conexión| Conexion[org.ol.util.Conexion]
+    LibroDAOImpl -->|Ejecuta PreparedStatement| MySQL[(Base de Datos MySQL)]
+    MySQL -->|Retorna ResultSet| LibroDAOImpl
+    LibroDAOImpl -->|Mapea Objeto| Libro[Libro.java]
+```
