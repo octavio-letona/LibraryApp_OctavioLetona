@@ -14,4 +14,4 @@ package org.ol.dao;
  */
 public interface Dao<T, K> extends Crud<T, K> {
 
-}
+} 
