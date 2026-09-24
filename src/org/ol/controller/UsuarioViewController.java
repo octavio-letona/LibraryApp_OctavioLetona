@@ -33,6 +33,33 @@ import org.ol.model.Usuario;
 import org.ol.system.Main;
 import org.ol.util.SecurityUtil;
 
+/**
+ * Controlador para la gestión completa de usuarios en la aplicación.
+ * 
+ * Proporciona funcionalidades avanzadas de CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los registros de usuarios del sistema. Implementa:
+ * - Creación de nuevos usuarios con validación de datos
+ * - Edición de información de usuarios existentes
+ * - Cambio de contraseñas con hashing seguro SHA256
+ * - Desactivación temporal de usuarios
+ * - Eliminación permanente de usuarios de la base de datos
+ * - Búsqueda y filtrado en tiempo real
+ * - Navegación avanzada por tabla
+ * - Protección contra auto-eliminación o auto-desactivación
+ * 
+ * Los campos gestionados incluyen:
+ * - Username (nombre de usuario único)
+ * - Email (correo electrónico con validación de formato)
+ * - Nombre y apellido
+ * - Rol (admin, empleado, cajero)
+ * - Estado activo/inactivo
+ * - Contraseña (con hashing SHA256 para seguridad)
+ * - Fecha de creación
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @since 2026
+ */
 public class UsuarioViewController implements Initializable {
 
     @FXML
@@ -96,6 +123,25 @@ public class UsuarioViewController implements Initializable {
     private final ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
     private final FilteredList<Usuario> usuariosFiltrados = new FilteredList<>(listaUsuarios, p -> true);
 
+    /**
+     * Inicializa el controlador cargando datos, configurando componentes y estableciendo listeners.
+     * Se ejecuta automáticamente cuando se carga el archivo FXML.
+     * 
+     * Operaciones realizadas:
+     * - Carga de roles disponibles en el ComboBox (admin, empleado, cajero)
+     * - Carga de todos los usuarios desde la base de datos
+     * - Configuración de la tabla con los datos filtrados
+     * - Configuración de listeners para selección de filas
+     * - Configuración de columnas con PropertyValueFactory
+     * - Configuración del sistema de búsqueda y filtrado
+     * - Desactivación inicial del formulario (modo lectura)
+     * 
+     * @param location URL de localización del recurso FXML
+     * @param resources ResourceBundle con recursos internacionalizados
+     * @see #cargarTabla()
+     * @see #configurarTabla()
+     * @see #configurarBusqueda()
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cmbRol.setItems(FXCollections.observableArrayList("admin", "empleado", "cajero"));
@@ -107,6 +153,20 @@ public class UsuarioViewController implements Initializable {
         desactivarFormulario();
     }
 
+    /**
+     * Configura las columnas de la tabla asignando las propiedades del modelo Usuario
+     * a cada columna mediante PropertyValueFactory.
+     * 
+     * Mapeos realizados:
+     * - colId → id
+     * - colUsername → username
+     * - colEmail → email
+     * - colNombre → firstName
+     * - colApellido → lastName
+     * - colRol → rol
+     * - colActivo → activo
+     * - colFecha → fechaCreacion
+     */
     public void configurarTabla() {
         colId.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("id"));
         colUsername.setCellValueFactory(new PropertyValueFactory<Usuario, String>("username"));
@@ -118,6 +178,12 @@ public class UsuarioViewController implements Initializable {
         colFecha.setCellValueFactory(new PropertyValueFactory<Usuario, Timestamp>("fechaCreacion"));
     }
 
+    /**
+     * Carga todos los registros de usuarios desde la base de datos
+     * y los adiciona a la lista observable.
+     * 
+     * @throws DaoException si ocurre un error al acceder a la base de datos
+     */
     private void cargarTabla() {
         try {
             listaUsuarios.setAll(usuarioDAO.listarTodosUsuarios());
@@ -126,10 +192,23 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Configura un listener en el TextField de búsqueda para filtrar
+     * los registros en tiempo real según el texto ingresado por el usuario.
+     * 
+     * @see #filtrarUsuarios()
+     */
     private void configurarBusqueda() {
         txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> filtrarUsuarios());
     }
 
+    /**
+     * Filtra la lista de usuarios según el texto de búsqueda.
+     * La búsqueda es insensible a mayúsculas y busca en los campos:
+     * id, username, email y rol.
+     * 
+     * Si el campo de búsqueda está vacío, muestra todos los registros.
+     */
     private void filtrarUsuarios() {
         String busqueda = txtBuscar.getText().trim().toLowerCase();
         if (busqueda.isEmpty()) {
@@ -143,6 +222,13 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Configura un listener que carga los datos del usuario seleccionado en el formulario
+     * cuando se selecciona una fila de la tabla. Desactiva el formulario para modo de lectura.
+     * 
+     * @see #mostrarEnFormulario(Usuario)
+     * @see #desactivarFormulario()
+     */
     private void seleccionarFila() {
         tablaUsuarios.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
@@ -153,6 +239,13 @@ public class UsuarioViewController implements Initializable {
                 });
     }
 
+    /**
+     * Carga los datos de un usuario específico en los campos del formulario.
+     * Llena todos los TextFields, ComboBox y CheckBox con la información del usuario.
+     * El campo de contraseña siempre se limpia por seguridad.
+     * 
+     * @param usuario el Usuario cuyos datos se desean mostrar en el formulario
+     */
     private void mostrarEnFormulario(Usuario usuario) {
         txtUsername.setText(usuario.getUsername());
         txtEmail.setText(usuario.getEmail());
@@ -163,6 +256,32 @@ public class UsuarioViewController implements Initializable {
         txtPassword.clear();
     }
 
+    /**
+     * Maneja el evento de guardar un nuevo usuario o actualizar uno existente.
+     * Valida todos los campos requeridos, aplica reglas de negocio, hashea la contraseña
+     * y persiste los datos en la base de datos según el modo (nuevo o edición).
+     * 
+     * Validaciones realizadas:
+     * - Username no vacío
+     * - Email no vacío y formato válido
+     * - Rol seleccionado
+     * - Para nuevos usuarios: contraseña no vacía y mínimo 6 caracteres
+     * - Para edición: no requiere contraseña (opcional)
+     * 
+     * Operaciones realizadas:
+     * - Creación de la instancia Usuario con los datos del formulario
+     * - Invocación de crear() o actualizar() según el modo
+     * - Hashing SHA256 de la contraseña para seguridad
+     * - Actualización de la interfaz (tabla, mensajes, controles)
+     * - Limpieza del formulario y retorno al estado de navegación
+     * 
+     * @throws ValidacionException si algún campo no cumple con las reglas de validación
+     * @throws Exception si ocurre un error general al guardar en la base de datos
+     * @see SecurityUtil#hashSHA256(String)
+     * @see #activarFormulario()
+     * @see #desactivarFormulario()
+     * @see #limpiarFormulario()
+     */
     @FXML
     private void handleGuardar() {
         try {
@@ -212,6 +331,14 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento de cancelar la operación actual (nuevo o edición).
+     * Limpia el formulario, desactiva los campos y retorna la interfaz al estado de navegación.
+     * 
+     * @see #limpiarFormulario()
+     * @see #desactivarFormulario()
+     * @see #activarNavegacion()
+     */
     @FXML
     private void handleCancelar() {
         limpiarFormulario();
@@ -222,6 +349,15 @@ public class UsuarioViewController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Maneja el evento para iniciar la creación de un nuevo usuario.
+     * Activa el formulario, desactiva la navegación y establece valores por defecto
+     * (activo=true, rol=empleado) para que el usuario pueda ingresar nuevos datos.
+     * 
+     * @see #activarFormulario()
+     * @see #desactivarNavegacion()
+     * @see #limpiarFormulario()
+     */
     @FXML
     private void handleNuevo() {
         modoEdicion = false;
@@ -236,6 +372,19 @@ public class UsuarioViewController implements Initializable {
         txtUsername.requestFocus();
     }
 
+    /**
+     * Maneja el evento para editar el usuario seleccionado en la tabla.
+     * Valida que exista una selección, carga los datos en el formulario,
+     * activa el modo edición y desactiva la navegación.
+     * 
+     * La contraseña se desactiva en modo edición ya que se cambia mediante
+     * un proceso separado (handleCambiarPassword).
+     * 
+     * @throws IllegalArgumentException si no hay usuario seleccionado en la tabla
+     * @see #activarFormulario()
+     * @see #desactivarNavegacion()
+     * @see #mostrarEnFormulario(Usuario)
+     */
     @FXML
     private void handleEditar() {
         Usuario seleccion = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -251,6 +400,21 @@ public class UsuarioViewController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Maneja el evento para cambiar la contraseña de un usuario seleccionado.
+     * Abre un diálogo de entrada donde el administrador puede ingresar una nueva contraseña,
+     * la valida (mínimo 6 caracteres), la hashea con SHA256 y la actualiza en la base de datos.
+     * 
+     * Validaciones realizadas:
+     * - Usuario seleccionado en la tabla
+     * - Contraseña no vacía
+     * - Contraseña con mínimo 6 caracteres
+     * 
+     * @throws ValidacionException si la contraseña no cumple con las reglas
+     * @throws DaoException si ocurre un error al acceder a la base de datos
+     * @see SecurityUtil#hashSHA256(String)
+     * @see UsuarioDAO#cambiarPassword(int, String)
+     */
     @FXML
     private void handleCambiarPassword() {
         Usuario seleccion = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -281,6 +445,20 @@ public class UsuarioViewController implements Initializable {
         });
     }
 
+    /**
+     * Maneja el evento para desactivar un usuario seleccionado.
+     * Desactiva el usuario sin eliminarlo de la base de datos, permitiendo reactivarlo después.
+     * 
+     * Protecciones implementadas:
+     * - Valida que exista usuario seleccionado
+     * - Previene desactivar el usuario actual en sesión
+     * - Solicita confirmación del administrador
+     * 
+     * @throws DaoException si ocurre un error al acceder a la base de datos
+     * @see #esUsuarioActual(Usuario)
+     * @see #confirmar(String, String)
+     * @see UsuarioDAO#desactivarUsuario(int)
+     */
     @FXML
     private void handleDesactivar() {
         Usuario seleccion = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -307,6 +485,20 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento para eliminar permanentemente un usuario seleccionado.
+     * Elimina el usuario definitivamente de la base de datos.
+     * 
+     * Protecciones implementadas:
+     * - Valida que exista usuario seleccionado
+     * - Previene eliminar el usuario actual en sesión
+     * - Solicita confirmación explícita del administrador
+     * 
+     * @throws DaoException si ocurre un error al acceder a la base de datos
+     * @see #esUsuarioActual(Usuario)
+     * @see #confirmar(String, String)
+     * @see UsuarioDAO#eliminarUsuario(int)
+     */
     @FXML
     private void handleEliminar() {
         Usuario seleccion = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -334,11 +526,23 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Verifica si el usuario proporcionado es el usuario actual en sesión.
+     * Se utiliza para prevenir que un usuario se auto-elimine o auto-desactive.
+     * 
+     * @param usuario el Usuario a verificar
+     * @return true si el usuario es el usuario actual en sesión, false en caso contrario
+     * @see SesionContext#getInstancia()
+     */
     private boolean esUsuarioActual(Usuario usuario) {
         Usuario actual = SesionContext.getInstancia().getUsuarioActual();
         return actual != null && actual.getId() == usuario.getId();
     }
 
+    /**
+     * Navega al primer usuario de la tabla y lo selecciona.
+     * Si la tabla está vacía, no realiza ninguna acción.
+     */
     @FXML
     private void handlePrimero() {
         if (!tablaUsuarios.getItems().isEmpty()) {
@@ -347,6 +551,10 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Navega al usuario anterior en la tabla y lo selecciona.
+     * Si la tabla está vacía o se alcanza el inicio, no realiza ninguna acción.
+     */
     @FXML
     private void handleAnterior() {
         if (!tablaUsuarios.getItems().isEmpty()) {
@@ -357,6 +565,10 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Navega al siguiente usuario en la tabla y lo selecciona.
+     * Si la tabla está vacía o se alcanza el final, no realiza ninguna acción.
+     */
     @FXML
     private void handleSiguiente() {
         if (!tablaUsuarios.getItems().isEmpty()) {
@@ -367,6 +579,10 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Navega al último usuario de la tabla y lo selecciona.
+     * Si la tabla está vacía, no realiza ninguna acción.
+     */
     @FXML
     private void handleUltimo() {
         if (!tablaUsuarios.getItems().isEmpty()) {
@@ -375,6 +591,13 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento para retornar al menú principal o dashboard según el rol del usuario.
+     * Cambia la escena a la ruta correspondiente obtenida de Main.
+     * 
+     * @throws Exception si ocurre un error al cambiar de escena
+     * @see Main#rutaDashboardSegunRol()
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -384,6 +607,10 @@ public class UsuarioViewController implements Initializable {
         }
     }
 
+    /**
+     * Limpia todos los campos del formulario estableciendo los TextFields a vacíos,
+     * los ComboBox a null y el CheckBox a desmarcar.
+     */
     private void limpiarFormulario() {
         txtUsername.clear();
         txtEmail.clear();
@@ -394,6 +621,11 @@ public class UsuarioViewController implements Initializable {
         txtPassword.clear();
     }
 
+    /**
+     * Activa los campos del formulario permitiendo que el usuario ingrese datos.
+     * Habilita todos los TextFields, ComboBox y CheckBox.
+     * La contraseña se desactiva en modo edición (solo habilitada para nuevos usuarios).
+     */
     private void activarFormulario() {
         txtUsername.setDisable(false);
         txtEmail.setDisable(false);
@@ -404,6 +636,10 @@ public class UsuarioViewController implements Initializable {
         txtPassword.setDisable(modoEdicion);
     }
 
+    /**
+     * Desactiva los campos del formulario impidiendo que el usuario modifique los datos.
+     * Deshabilita todos los TextFields, ComboBox y CheckBox.
+     */
     private void desactivarFormulario() {
         txtUsername.setDisable(true);
         txtEmail.setDisable(true);
@@ -414,6 +650,10 @@ public class UsuarioViewController implements Initializable {
         txtPassword.setDisable(true);
     }
 
+    /**
+     * Activa todos los controles de navegación y búsqueda de la tabla.
+     * Habilita tabla, botones de navegación y campo de búsqueda.
+     */
     private void activarNavegacion() {
         tablaUsuarios.setDisable(false);
         btnNuevo.setDisable(false);
@@ -428,6 +668,11 @@ public class UsuarioViewController implements Initializable {
         txtBuscar.setDisable(false);
     }
 
+    /**
+     * Desactiva todos los controles de navegación y búsqueda de la tabla.
+     * Deshabilita tabla, botones de navegación y campo de búsqueda durante
+     * la edición o creación de un nuevo usuario.
+     */
     private void desactivarNavegacion() {
         tablaUsuarios.setDisable(true);
         btnNuevo.setDisable(true);
@@ -442,6 +687,14 @@ public class UsuarioViewController implements Initializable {
         txtBuscar.setDisable(true);
     }
 
+    /**
+     * Muestra un diálogo de confirmación al usuario con opciones Sí y No.
+     * El diálogo es modal y bloquea la interacción hasta que sea cerrado.
+     * 
+     * @param titulo el título de la ventana de confirmación
+     * @param mensaje el texto del mensaje a mostrar
+     * @return true si el usuario selecciona Sí, false si selecciona No
+     */
     private boolean confirmar(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
         alert.setTitle(titulo);
@@ -449,6 +702,12 @@ public class UsuarioViewController implements Initializable {
         return alert.showAndWait().orElse(ButtonType.NO) == ButtonType.YES;
     }
 
+    /**
+     * Muestra un diálogo de error al usuario con el mensaje especificado.
+     * El diálogo es modal y bloquea la interacción hasta que sea cerrado.
+     * 
+     * @param mensaje el texto del mensaje de error a mostrar
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -457,6 +716,12 @@ public class UsuarioViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra un diálogo de advertencia al usuario con el mensaje especificado.
+     * El diálogo es modal y bloquea la interacción hasta que sea cerrado.
+     * 
+     * @param mensaje el texto del mensaje de advertencia a mostrar
+     */
     private void mostrarAdvertencia(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Advertencia");
