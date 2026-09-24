@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package org.ol.dao;
+
 import java.util.List;
 import org.ol.model.LineaVenta;
 import org.ol.model.Venta;
