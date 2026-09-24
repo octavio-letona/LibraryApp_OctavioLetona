@@ -4,9 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/UsuarioDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/FacturaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/AutorLibroDAOImpl.java</file>
             <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/model/LineaVenta.java</file>
             <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/VentaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/VentaDAO.java</file>
             <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/LibroDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/DetalleVentaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/ClienteDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/CategoriaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/EditorialDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/AutorDAOImpl.java</file>
         </group>
     </open-files>
 </project-private>
