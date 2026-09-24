@@ -1,12 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package org.ol.dao;
-
 
 import org.ol.model.DetalleVenta;
 
-public interface DetalleVentaDAO extends Crud<DetalleVenta, Integer>{
+/**
+ * Contrato DAO que define las operaciones de persistencia CRUD
+ * para la entidad {@link DetalleVenta} dentro del sistema.
+ * 
+ * Extiende de {@link Crud} empleando un identificador de tipo {@link Integer}
+ * (ID único del detalle de venta) como clave primaria.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.model.DetalleVenta
+ * @see org.ol.dao.Crud
+ */
+public interface DetalleVentaDAO extends Crud<DetalleVenta, Integer> {
 
 }

@@ -6,6 +6,18 @@ package org.ol.dao;
 
 import org.ol.model.Cliente;
 
-public interface ClienteDAO extends Crud<Cliente, Long>{
-    
+/**
+ * Contrato DAO que define las operaciones de persistencia CRUD
+ * para la entidad {@link Cliente} dentro del sistema.
+ * 
+ * Extiende de {@link Crud} empleando un identificador de tipo {@link Long}
+ * (como NIT o código de cliente) como clave primaria.
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @see org.ol.model.Cliente
+ * @see org.ol.dao.Crud
+ */
+public interface ClienteDAO extends Crud<Cliente, Long> {
+
 }
