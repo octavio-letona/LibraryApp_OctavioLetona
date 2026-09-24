@@ -43,13 +43,13 @@ public class Main extends Application {
         }
         switch (usuario.getRol().toLowerCase()) {
             case "admin":
-                return "/org/ac/view/fxml/AdminDashboradView.fxml";
+                return "/org/ol/view/AdminDashboradView.fxml";
             case "empleado":
-                return "/org/ac/view/fxml/EmpleadoView.fxml";
+                return "/org/ol/view/EmpleadoView.fxml";
             case "cajero":
-                return "/org/ac/view/fxml/CajeroView.fxml";
+                return "/org/ol/view/CajeroView.fxml";
             default:
-                return "/org/ac/view/fxml/InicioSesionView.fxml";
+                return "/org/ol/view/InicioSesionView.fxml";
         }
     }
 
