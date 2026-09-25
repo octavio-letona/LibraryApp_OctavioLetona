@@ -33,6 +33,20 @@ import org.ol.model.Libro;
 import org.ol.model.Venta;
 import org.ol.system.Main;
 
+/**
+ * Controlador FXML encargado de gestionar el CRUD y la navegación de los
+ * detalles de venta dentro de la aplicación LibraryApp.
+ * <p>
+ * Permite registrar, editar, buscar y recorrer (primero, anterior, siguiente,
+ * último) los registros de {@link DetalleVenta}, enlazando la tabla visual
+ * con la capa de acceso a datos ({@link DetalleVentaDAO}, {@link VentaDAO}
+ * y {@link LibroDAO}).
+ *
+ * @author Octavio Javier Letona Figueroa
+ * @version 1.0.0
+ * @see DetalleVenta
+ * @see DetalleVentaDAO
+ */
 public class DetalleVentaController implements Initializable {
 
     @FXML
@@ -80,6 +94,16 @@ public class DetalleVentaController implements Initializable {
     private final ObservableList<DetalleVenta> listaDetalles = FXCollections.observableArrayList();
     private final FilteredList<DetalleVenta> detallesFiltrados = new FilteredList<>(listaDetalles, p -> true);
 
+    /**
+     * Inicializa el controlador después de que su elemento raíz haya sido
+     * procesado por completo. Carga la tabla, los combos, configura la
+     * selección de filas, las columnas de la tabla y el buscador.
+     *
+     * @param location  la ubicación usada para resolver rutas relativas del
+     *                  objeto raíz, o {@code null} si no se conoce.
+     * @param resources los recursos usados para localizar el objeto raíz,
+     *                  o {@code null} si no se localizó.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarTabla();
@@ -90,6 +114,11 @@ public class DetalleVentaController implements Initializable {
         configurarBusqueda();
     }
 
+    /**
+     * Asocia cada columna de {@link #tablaDetalleVenta} con la propiedad
+     * correspondiente del modelo {@link DetalleVenta} mediante
+     * {@link PropertyValueFactory}.
+     */
     public void configurarTabla() {
         colIdDetalleVenta.setCellValueFactory(new PropertyValueFactory<DetalleVenta, Integer>("idDetalleVenta"));
         colNoVenta.setCellValueFactory(new PropertyValueFactory<DetalleVenta, Integer>("noVenta"));
@@ -98,6 +127,11 @@ public class DetalleVentaController implements Initializable {
         colPrecio.setCellValueFactory(new PropertyValueFactory<DetalleVenta, Double>("precio"));
     }
 
+    /**
+     * Recupera todos los detalles de venta desde la base de datos a través
+     * de {@link #detalleVentaDAO} y los carga en {@link #listaDetalles}.
+     * Si ocurre un error de acceso a datos, se muestra una alerta al usuario.
+     */
     private void cargarTabla() {
         try {
             listaDetalles.setAll(detalleVentaDAO.listarTodos());
@@ -106,6 +140,12 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Carga los combos de {@link #cmbVenta} y {@link #cmbLibro} con la
+     * información obtenida de {@link #ventaDAO} y {@link #libroDAO},
+     * definiendo además el {@link StringConverter} que muestra el número
+     * de venta en {@link #cmbVenta}.
+     */
     private void cargarCombos() {
         try {
             cmbVenta.setItems(FXCollections.observableArrayList(ventaDAO.listarTodos()));
@@ -126,10 +166,19 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Registra un listener sobre {@link #txtBuscar} para filtrar la tabla
+     * de detalles de venta cada vez que cambia el texto de búsqueda.
+     */
     private void configurarBusqueda() {
         txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> filtrarDetalles());
     }
 
+    /**
+     * Aplica un predicado sobre {@link #detallesFiltrados} según el texto
+     * ingresado en {@link #txtBuscar}, comparando contra el id, número de
+     * venta, ISBN, cantidad y precio de cada {@link DetalleVenta}.
+     */
     private void filtrarDetalles() {
         String busqueda = txtBuscar.getText().trim().toLowerCase();
         if (busqueda.isEmpty()) {
@@ -144,6 +193,12 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Registra un listener sobre la selección de {@link #tablaDetalleVenta}
+     * para precargar el formulario (combos de venta y libro, cantidad y
+     * precio) con los datos de la fila seleccionada y desactivar el
+     * formulario para evitar ediciones accidentales.
+     */
     private void seleccionarFila() {
         tablaDetalleVenta.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
@@ -169,6 +224,17 @@ public class DetalleVentaController implements Initializable {
                 });
     }
 
+    /**
+     * Valida los datos del formulario y guarda el detalle de venta,
+     * creando un nuevo registro o actualizando uno existente según
+     * {@link #modoEdicion}. Muestra mensajes de éxito, advertencia o error
+     * según el resultado de la operación.
+     *
+     * @throws ValidacionException si algún campo requerido está vacío,
+     *                              nulo, no es numérico o no es positivo
+     *                              (capturada internamente y mostrada como
+     *                              advertencia al usuario).
+     */
     @FXML
     private void handleGuardar() {
         try {
@@ -215,6 +281,11 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Cancela la operación de creación o edición en curso: limpia el
+     * formulario, lo desactiva, reactiva la navegación y restablece el
+     * estado de edición.
+     */
     @FXML
     private void handleCancelar() {
         limpiarFormulario();
@@ -225,6 +296,11 @@ public class DetalleVentaController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Prepara la interfaz para el registro de un nuevo detalle de venta:
+     * desactiva el modo edición, limpia el formulario, lo activa, bloquea
+     * la navegación y coloca el foco en {@link #cmbVenta}.
+     */
     @FXML
     private void handleNuevo() {
         modoEdicion = false;
@@ -237,6 +313,11 @@ public class DetalleVentaController implements Initializable {
         cmbVenta.requestFocus();
     }
 
+    /**
+     * Habilita la edición del detalle de venta seleccionado en la tabla.
+     * Si no hay ninguna fila seleccionada, muestra un mensaje de error y
+     * no realiza ninguna acción adicional.
+     */
     @FXML
     private void handleEditar() {
         DetalleVenta seleccion = tablaDetalleVenta.getSelectionModel().getSelectedItem();
@@ -251,6 +332,10 @@ public class DetalleVentaController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Selecciona y desplaza la vista hasta el primer registro de la tabla
+     * de detalles de venta, si existe al menos uno.
+     */
     @FXML
     private void handlePrimero() {
         if (!tablaDetalleVenta.getItems().isEmpty()) {
@@ -259,6 +344,10 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona el registro anterior al actualmente seleccionado en la
+     * tabla de detalles de venta y desplaza la vista hacia él.
+     */
     @FXML
     private void handleAnterior() {
         if (!tablaDetalleVenta.getItems().isEmpty()) {
@@ -269,6 +358,10 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona el registro siguiente al actualmente seleccionado en la
+     * tabla de detalles de venta y desplaza la vista hacia él.
+     */
     @FXML
     private void handleSiguiente() {
         if (!tablaDetalleVenta.getItems().isEmpty()) {
@@ -279,6 +372,10 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona y desplaza la vista hasta el último registro de la tabla
+     * de detalles de venta, si existe al menos uno.
+     */
     @FXML
     private void handleUltimo() {
         if (!tablaDetalleVenta.getItems().isEmpty()) {
@@ -287,6 +384,11 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Regresa al menú principal correspondiente al rol del usuario,
+     * cambiando de escena mediante {@link Main#cambiarEscena(String)}.
+     * Si ocurre un error al cambiar de escena, se muestra una alerta.
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -296,6 +398,10 @@ public class DetalleVentaController implements Initializable {
         }
     }
 
+    /**
+     * Restablece los campos del formulario (combos, cantidad y precio) a
+     * sus valores vacíos o nulos por defecto.
+     */
     private void limpiarFormulario() {
         cmbVenta.setValue(null);
         cmbLibro.setValue(null);
@@ -303,6 +409,10 @@ public class DetalleVentaController implements Initializable {
         txtPrecio.clear();
     }
 
+    /**
+     * Habilita los controles del formulario (combos de venta y libro,
+     * cantidad y precio) para permitir el ingreso o edición de datos.
+     */
     private void activarFormulario() {
         cmbVenta.setDisable(false);
         cmbLibro.setDisable(false);
@@ -310,6 +420,10 @@ public class DetalleVentaController implements Initializable {
         txtPrecio.setDisable(false);
     }
 
+    /**
+     * Deshabilita los controles del formulario (combos de venta y libro,
+     * cantidad y precio) para evitar modificaciones no deseadas.
+     */
     private void desactivarFormulario() {
         cmbVenta.setDisable(true);
         cmbLibro.setDisable(true);
@@ -317,6 +431,10 @@ public class DetalleVentaController implements Initializable {
         txtPrecio.setDisable(true);
     }
 
+    /**
+     * Habilita los controles de navegación y acciones sobre la tabla
+     * (tabla, botones de CRUD/navegación y buscador).
+     */
     private void activarNavegacion() {
         tablaDetalleVenta.setDisable(false);
         btnNuevo.setDisable(false);
@@ -328,6 +446,11 @@ public class DetalleVentaController implements Initializable {
         txtBuscar.setDisable(false);
     }
 
+    /**
+     * Deshabilita los controles de navegación y acciones sobre la tabla
+     * (tabla, botones de CRUD/navegación y buscador), típicamente mientras
+     * el formulario está activo para creación o edición.
+     */
     private void desactivarNavegacion() {
         tablaDetalleVenta.setDisable(true);
         btnNuevo.setDisable(true);
@@ -339,6 +462,11 @@ public class DetalleVentaController implements Initializable {
         txtBuscar.setDisable(true);
     }
 
+    /**
+     * Muestra una alerta de tipo error con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -347,6 +475,11 @@ public class DetalleVentaController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra una alerta de tipo advertencia con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarAdvertencia(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Advertencia");
