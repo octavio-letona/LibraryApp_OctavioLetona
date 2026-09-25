@@ -24,6 +24,19 @@ import org.ol.exception.DaoException;
 import org.ol.model.Libro;
 import org.ol.system.Main;
 
+/**
+ * Controlador FXML encargado de mostrar el inventario de libros dentro de
+ * la aplicación LibraryApp.
+ * <p>
+ * Es una vista de solo lectura: presenta el listado completo de
+ * {@link Libro} (ISBN, título, precio y stock) obtenido de
+ * {@link LibroDAO} y permite filtrarlo mediante un buscador de texto.
+ *
+ * @author Octavio Javier Letona Figueroa
+ * @version 1.0.0
+ * @see Libro
+ * @see LibroDAO
+ */
 public class InventarioController implements Initializable {
 
     @FXML
@@ -43,6 +56,16 @@ public class InventarioController implements Initializable {
     private final ObservableList<Libro> listaLibros = FXCollections.observableArrayList();
     private final FilteredList<Libro> librosFiltrados = new FilteredList<>(listaLibros, p -> true);
 
+    /**
+     * Inicializa el controlador después de que su elemento raíz haya sido
+     * procesado por completo. Carga la tabla de inventario, configura sus
+     * columnas y el buscador.
+     *
+     * @param location  la ubicación usada para resolver rutas relativas del
+     *                  objeto raíz, o {@code null} si no se conoce.
+     * @param resources los recursos usados para localizar el objeto raíz,
+     *                  o {@code null} si no se localizó.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarTabla();
@@ -51,6 +74,11 @@ public class InventarioController implements Initializable {
         configurarBusqueda();
     }
 
+    /**
+     * Asocia cada columna de {@link #tablaInventario} con la propiedad
+     * correspondiente del modelo {@link Libro} mediante
+     * {@link PropertyValueFactory}.
+     */
     public void configurarTabla() {
         colIsbn.setCellValueFactory(new PropertyValueFactory<Libro, String>("isbn"));
         colTitulo.setCellValueFactory(new PropertyValueFactory<Libro, String>("titulo"));
@@ -58,6 +86,11 @@ public class InventarioController implements Initializable {
         colStock.setCellValueFactory(new PropertyValueFactory<Libro, Integer>("stock"));
     }
 
+    /**
+     * Recupera todos los libros desde la base de datos a través de
+     * {@link #libroDAO} y los carga en {@link #listaLibros}. Si ocurre un
+     * error de acceso a datos, se muestra una alerta al usuario.
+     */
     private void cargarTabla() {
         try {
             listaLibros.setAll(libroDAO.listarTodos());
@@ -66,10 +99,19 @@ public class InventarioController implements Initializable {
         }
     }
 
+    /**
+     * Registra un listener sobre {@link #txtBuscar} para filtrar la tabla
+     * de inventario cada vez que cambia el texto de búsqueda.
+     */
     private void configurarBusqueda() {
         txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> filtrarLibros());
     }
 
+    /**
+     * Aplica un predicado sobre {@link #librosFiltrados} según el texto
+     * ingresado en {@link #txtBuscar}, comparando contra el ISBN, título,
+     * precio y stock de cada {@link Libro}.
+     */
     private void filtrarLibros() {
         String busqueda = txtBuscar.getText().trim().toLowerCase();
         if (busqueda.isEmpty()) {
@@ -83,6 +125,11 @@ public class InventarioController implements Initializable {
         }
     }
 
+    /**
+     * Regresa al menú principal correspondiente al rol del usuario,
+     * cambiando de escena mediante {@link Main#cambiarEscena(String)}.
+     * Si ocurre un error al cambiar de escena, se muestra una alerta.
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -92,6 +139,11 @@ public class InventarioController implements Initializable {
         }
     }
 
+    /**
+     * Muestra una alerta de tipo error con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
