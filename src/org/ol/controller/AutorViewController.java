@@ -23,6 +23,23 @@ import org.ol.model.Autor;
 import org.ol.system.Main;
 
 
+/**
+ * Controlador para la gestión de autores en la aplicación de biblioteca.
+ * 
+ * Proporciona funcionalidades completas de CRUD (Crear, Leer, Actualizar, Eliminar)
+ * para los registros de autores. Implementa búsqueda en tiempo real, navegación,
+ * validación de datos y control de estados del formulario en la interfaz gráfica JavaFX.
+ * 
+ * Los campos gestionados incluyen:
+ * - Nombre del autor
+ * - Apellido del autor
+ * - Nacionalidad
+ * - Biografía
+ * 
+ * @author Octavio Letona
+ * @version 1.0.0
+ * @since 2026
+ */
 public class AutorViewController implements Initializable {
 
     @FXML
@@ -68,6 +85,20 @@ public class AutorViewController implements Initializable {
     private final ObservableList<Autor> listaAutores = FXCollections.observableArrayList();
     private final FilteredList<Autor> autoresFiltrados = new FilteredList<>(listaAutores, p -> true);
 
+    /**
+     * Inicializa el controlador cargando datos y configurando los componentes de la interfaz.
+     * Se ejecuta automáticamente cuando se carga el archivo FXML.
+     * 
+     * Operaciones realizadas:
+     * - Carga de todos los autores desde la base de datos
+     * - Configuración de la tabla con los datos
+     * - Configuración de listeners para selección de filas
+     * - Configuración de columnas con PropertyValueFactory
+     * - Configuración del sistema de búsqueda y filtrado
+     * 
+     * @param location URL de localización del recurso FXML
+     * @param resources ResourceBundle con recursos internacionalizados
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarTabla();
@@ -77,6 +108,17 @@ public class AutorViewController implements Initializable {
         configurarBusqueda();
     }
 
+    /**
+     * Configura las columnas de la tabla asignando las propiedades del modelo Autor
+     * a cada columna mediante PropertyValueFactory.
+     * 
+     * Mapeos realizados:
+     * - colIdAutor → idAutor
+     * - colNombreAutor → nombreAutor
+     * - colApellidoAutor → apellidoAutor
+     * - colNacionalidad → nacionalidad
+     * - colBiografia → biografia
+     */
     public void configurarTabla() {
         colIdAutor.setCellValueFactory(new PropertyValueFactory<Autor, Integer>("idAutor"));
         colNombreAutor.setCellValueFactory(new PropertyValueFactory<Autor, String>("nombreAutor"));
@@ -85,6 +127,12 @@ public class AutorViewController implements Initializable {
         colBiografia.setCellValueFactory(new PropertyValueFactory<Autor, String>("biografia"));
     }
 
+    /**
+     * Carga todos los registros de autores desde la base de datos
+     * y los adiciona a la lista observable.
+     * 
+     * @throws DaoException si ocurre un error al acceder a la base de datos
+     */
     private void cargarTabla() {
         try {
             listaAutores.setAll(autorDAO.listarTodos());
@@ -93,10 +141,23 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Configura un listener en el TextField de búsqueda para filtrar
+     * los registros en tiempo real según el texto ingresado por el usuario.
+     * 
+     * @see #filtrarAutores()
+     */
     private void configurarBusqueda() {
         txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> filtrarAutores());
     }
 
+    /**
+     * Filtra la lista de autores según el texto de búsqueda.
+     * La búsqueda es insensible a mayúsculas y busca en los campos:
+     * idAutor, nombreAutor, apellidoAutor, nacionalidad y biografia.
+     * 
+     * Si el campo de búsqueda está vacío, muestra todos los registros.
+     */
     private void filtrarAutores() {
         String busqueda = txtBuscar.getText().trim().toLowerCase();
         if (busqueda.isEmpty()) {
@@ -111,6 +172,13 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Configura un listener que actualiza los campos de texto cuando se selecciona
+     * una fila de la tabla. Carga los datos del autor seleccionado en los TextFields
+     * correspondientes y desactiva el formulario para modo de lectura.
+     * 
+     * @see #desactivarFormulario()
+     */
     private void seleccionarFila() {
         tablaAutores.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
@@ -124,6 +192,24 @@ public class AutorViewController implements Initializable {
                 });
     }
 
+    /**
+     * Maneja el evento de guardar un nuevo autor o actualizar uno existente.
+     * Valida que los campos obligatorios (nombre, apellido, nacionalidad) no estén vacíos,
+     * crea el objeto Autor y lo persiste en la base de datos según el modo (nuevo o edición).
+     * 
+     * Operaciones realizadas:
+     * - Validación de campos obligatorios mediante ValidacionException
+     * - Creación de la instancia Autor con los datos del formulario
+     * - Invocación de crear() o actualizar() según el modo
+     * - Actualización de la interfaz (tabla, mensajes, controles)
+     * - Limpieza del formulario y retorno al estado de navegación
+     * 
+     * @throws ValidacionException si algún campo obligatorio está vacío
+     * @throws Exception si ocurre un error general al guardar en la base de datos
+     * @see #activarFormulario()
+     * @see #desactivarFormulario()
+     * @see #limpiarFormulario()
+     */
     @FXML
     private void handleGuardar() {
         try {
@@ -165,6 +251,14 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento de cancelar la operación actual (nuevo o edición).
+     * Limpia el formulario, desactiva los campos y retorna la interfaz al estado de navegación.
+     * 
+     * @see #limpiarFormulario()
+     * @see #desactivarFormulario()
+     * @see #activarNavegacion()
+     */
     @FXML
     private void handleCancelar() {
         limpiarFormulario();
@@ -175,6 +269,15 @@ public class AutorViewController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Maneja el evento para iniciar la creación de un nuevo autor.
+     * Activa el formulario, desactiva la navegación y limpia los campos
+     * para que el usuario pueda ingresar nuevos datos.
+     * 
+     * @see #activarFormulario()
+     * @see #desactivarNavegacion()
+     * @see #limpiarFormulario()
+     */
     @FXML
     private void handleNuevo() {
         modoEdicion = false;
@@ -187,6 +290,15 @@ public class AutorViewController implements Initializable {
         txtNombre.requestFocus();
     }
 
+    /**
+     * Maneja el evento para editar el autor seleccionado en la tabla.
+     * Valida que exista una selección, activa el modo edición y desactiva la navegación
+     * para permitir modificaciones.
+     * 
+     * @throws IllegalArgumentException si no hay autor seleccionado en la tabla
+     * @see #activarFormulario()
+     * @see #desactivarNavegacion()
+     */
     @FXML
     private void handleEditar() {
         Autor seleccion = tablaAutores.getSelectionModel().getSelectedItem();
@@ -201,6 +313,10 @@ public class AutorViewController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Navega al primer autor de la tabla y lo selecciona.
+     * Si la tabla está vacía, no realiza ninguna acción.
+     */
     @FXML
     private void handlePrimero() {
         if (!tablaAutores.getItems().isEmpty()) {
@@ -209,6 +325,10 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Navega al autor anterior en la tabla y lo selecciona.
+     * Si la tabla está vacía o se alcanza el inicio, no realiza ninguna acción.
+     */
     @FXML
     private void handleAnterior() {
         if (!tablaAutores.getItems().isEmpty()) {
@@ -219,6 +339,10 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Navega al siguiente autor en la tabla y lo selecciona.
+     * Si la tabla está vacía o se alcanza el final, no realiza ninguna acción.
+     */
     @FXML
     private void handleSiguiente() {
         if (!tablaAutores.getItems().isEmpty()) {
@@ -229,6 +353,10 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Navega al último autor de la tabla y lo selecciona.
+     * Si la tabla está vacía, no realiza ninguna acción.
+     */
     @FXML
     private void handleUltimo() {
         if (!tablaAutores.getItems().isEmpty()) {
@@ -237,6 +365,12 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento para retornar al menú principal o dashboard según el rol del usuario.
+     * Cambia la escena actual a la ruta correspondiente obtenida de Main.
+     * 
+     * @throws Exception si ocurre un error al cambiar de escena
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -246,6 +380,9 @@ public class AutorViewController implements Initializable {
         }
     }
 
+    /**
+     * Limpia todos los campos del formulario estableciendo los TextFields y TextArea a vacíos.
+     */
     private void limpiarFormulario() {
         txtNombre.clear();
         txtApellido.clear();
@@ -253,6 +390,10 @@ public class AutorViewController implements Initializable {
         txtBiografia.clear();
     }
 
+    /**
+     * Activa los campos del formulario permitiendo que el usuario ingrese o modifique datos.
+     * Habilita todos los TextFields y TextArea del formulario.
+     */
     private void activarFormulario() {
         txtNombre.setDisable(false);
         txtApellido.setDisable(false);
@@ -260,6 +401,10 @@ public class AutorViewController implements Initializable {
         txtBiografia.setDisable(false);
     }
 
+    /**
+     * Desactiva los campos del formulario impidiendo que el usuario modifique los datos.
+     * Deshabilita todos los TextFields y TextArea del formulario.
+     */
     private void desactivarFormulario() {
         txtNombre.setDisable(true);
         txtApellido.setDisable(true);
@@ -267,6 +412,10 @@ public class AutorViewController implements Initializable {
         txtBiografia.setDisable(true);
     }
 
+    /**
+     * Activa todos los controles de navegación y búsqueda de la tabla.
+     * Habilita la tabla, botones de navegación y campo de búsqueda.
+     */
     private void activarNavegacion() {
         tablaAutores.setDisable(false);
         btnNuevo.setDisable(false);
@@ -278,6 +427,11 @@ public class AutorViewController implements Initializable {
         txtBuscar.setDisable(false);
     }
 
+    /**
+     * Desactiva todos los controles de navegación y búsqueda de la tabla.
+     * Deshabilita la tabla, botones de navegación y campo de búsqueda durante
+     * la edición o creación de un nuevo registro.
+     */
     private void desactivarNavegacion() {
         tablaAutores.setDisable(true);
         btnNuevo.setDisable(true);
@@ -289,6 +443,12 @@ public class AutorViewController implements Initializable {
         txtBuscar.setDisable(true);
     }
 
+    /**
+     * Muestra un diálogo de error al usuario con el mensaje especificado.
+     * El diálogo es modal y bloquea la interacción hasta que sea cerrado.
+     * 
+     * @param mensaje el texto del mensaje de error a mostrar
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -297,6 +457,12 @@ public class AutorViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra un diálogo de advertencia al usuario con el mensaje especificado.
+     * El diálogo es modal y bloquea la interacción hasta que sea cerrado.
+     * 
+     * @param mensaje el texto del mensaje de advertencia a mostrar
+     */
     private void mostrarAdvertencia(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Advertencia");
