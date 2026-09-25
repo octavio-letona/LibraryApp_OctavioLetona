@@ -21,6 +21,19 @@ import org.ol.exception.ValidacionException;
 import org.ol.model.Editorial;
 import org.ol.system.Main;
 
+/**
+ * Controlador FXML encargado de gestionar el CRUD y la navegación de las
+ * editoriales dentro de la aplicación LibraryApp.
+ * <p>
+ * Permite registrar, editar, buscar y recorrer (primero, anterior, siguiente,
+ * último) los registros de {@link Editorial}, enlazando la tabla visual con
+ * la capa de acceso a datos ({@link EditorialDAO}).
+ *
+ * @author Octavio Javier Letona Figueroa
+ * @version 1.0.0
+ * @see Editorial
+ * @see EditorialDAO
+ */
 public class EditorialController implements Initializable {
 
     @FXML
@@ -63,6 +76,16 @@ public class EditorialController implements Initializable {
     private final ObservableList<Editorial> listaEditoriales = FXCollections.observableArrayList();
     private final FilteredList<Editorial> editorialesFiltradas = new FilteredList<>(listaEditoriales, p -> true);
 
+    /**
+     * Inicializa el controlador después de que su elemento raíz haya sido
+     * procesado por completo. Carga la tabla, configura la selección de
+     * filas, las columnas de la tabla y el buscador.
+     *
+     * @param location  la ubicación usada para resolver rutas relativas del
+     *                  objeto raíz, o {@code null} si no se conoce.
+     * @param resources los recursos usados para localizar el objeto raíz,
+     *                  o {@code null} si no se localizó.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarTabla();
@@ -72,6 +95,11 @@ public class EditorialController implements Initializable {
         configurarBusqueda();
     }
 
+    /**
+     * Asocia cada columna de {@link #tablaEditoriales} con la propiedad
+     * correspondiente del modelo {@link Editorial} mediante
+     * {@link PropertyValueFactory}.
+     */
     public void configurarTabla() {
         colNit.setCellValueFactory(new PropertyValueFactory<Editorial, String>("nit"));
         colNombre.setCellValueFactory(new PropertyValueFactory<Editorial, String>("nombreEditorial"));
@@ -79,6 +107,11 @@ public class EditorialController implements Initializable {
         colDireccion.setCellValueFactory(new PropertyValueFactory<Editorial, String>("direccionEditoria"));
     }
 
+    /**
+     * Recupera todas las editoriales desde la base de datos a través de
+     * {@link #editorialDAO} y las carga en {@link #listaEditoriales}. Si
+     * ocurre un error de acceso a datos, se muestra una alerta al usuario.
+     */
     private void cargarTabla() {
         try {
             listaEditoriales.setAll(editorialDAO.listarTodos());
@@ -87,10 +120,19 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Registra un listener sobre {@link #txtBuscar} para filtrar la tabla
+     * de editoriales cada vez que cambia el texto de búsqueda.
+     */
     private void configurarBusqueda() {
         txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> filtrarEditoriales());
     }
 
+    /**
+     * Aplica un predicado sobre {@link #editorialesFiltradas} según el
+     * texto ingresado en {@link #txtBuscar}, comparando contra el NIT,
+     * nombre, teléfono y dirección de cada {@link Editorial}.
+     */
     private void filtrarEditoriales() {
         String busqueda = txtBuscar.getText().trim().toLowerCase();
         if (busqueda.isEmpty()) {
@@ -104,6 +146,12 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Registra un listener sobre la selección de {@link #tablaEditoriales}
+     * para precargar el formulario (NIT, nombre, teléfono y dirección) con
+     * los datos de la fila seleccionada y desactivar el formulario para
+     * evitar ediciones accidentales.
+     */
     private void seleccionarFila() {
         tablaEditoriales.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
@@ -117,6 +165,17 @@ public class EditorialController implements Initializable {
                 });
     }
 
+    /**
+     * Valida los datos del formulario y guarda la editorial, creando un
+     * nuevo registro o actualizando uno existente según {@link #modoEdicion}.
+     * Muestra mensajes de éxito, advertencia o error según el resultado de
+     * la operación.
+     *
+     * @throws ValidacionException si algún campo requerido (NIT, nombre,
+     *                              teléfono o dirección) está vacío
+     *                              (capturada internamente y mostrada como
+     *                              advertencia al usuario).
+     */
     @FXML
     private void handleGuardar() {
         try {
@@ -158,6 +217,11 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Cancela la operación de creación o edición en curso: limpia el
+     * formulario, lo desactiva, reactiva la navegación y restablece el
+     * estado de edición.
+     */
     @FXML
     private void handleCancelar() {
         limpiarFormulario();
@@ -167,6 +231,11 @@ public class EditorialController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Prepara la interfaz para el registro de una nueva editorial:
+     * desactiva el modo edición, limpia el formulario, lo activa, bloquea
+     * la navegación y coloca el foco en {@link #txtNit}.
+     */
     @FXML
     private void handleNuevo() {
         modoEdicion = false;
@@ -178,6 +247,11 @@ public class EditorialController implements Initializable {
         txtNit.requestFocus();
     }
 
+    /**
+     * Habilita la edición de la editorial seleccionada en la tabla. Si no
+     * hay ninguna fila seleccionada, muestra un mensaje de error y no
+     * realiza ninguna acción adicional.
+     */
     @FXML
     private void handleEditar() {
         Editorial seleccion = tablaEditoriales.getSelectionModel().getSelectedItem();
@@ -191,6 +265,10 @@ public class EditorialController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Selecciona y desplaza la vista hasta el primer registro de la tabla
+     * de editoriales, si existe al menos uno.
+     */
     @FXML
     private void handlePrimero() {
         if (!tablaEditoriales.getItems().isEmpty()) {
@@ -199,6 +277,10 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona el registro anterior al actualmente seleccionado en la
+     * tabla de editoriales y desplaza la vista hacia él.
+     */
     @FXML
     private void handleAnterior() {
         if (!tablaEditoriales.getItems().isEmpty()) {
@@ -209,6 +291,10 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona el registro siguiente al actualmente seleccionado en la
+     * tabla de editoriales y desplaza la vista hacia él.
+     */
     @FXML
     private void handleSiguiente() {
         if (!tablaEditoriales.getItems().isEmpty()) {
@@ -219,6 +305,10 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Selecciona y desplaza la vista hasta el último registro de la tabla
+     * de editoriales, si existe al menos uno.
+     */
     @FXML
     private void handleUltimo() {
         if (!tablaEditoriales.getItems().isEmpty()) {
@@ -227,6 +317,11 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Regresa al menú principal correspondiente al rol del usuario,
+     * cambiando de escena mediante {@link Main#cambiarEscena(String)}.
+     * Si ocurre un error al cambiar de escena, se muestra una alerta.
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -236,6 +331,10 @@ public class EditorialController implements Initializable {
         }
     }
 
+    /**
+     * Restablece los campos del formulario (NIT, nombre, teléfono y
+     * dirección) a sus valores vacíos por defecto.
+     */
     private void limpiarFormulario() {
         txtNit.clear();
         txtNombre.clear();
@@ -243,6 +342,10 @@ public class EditorialController implements Initializable {
         txtDireccion.clear();
     }
 
+    /**
+     * Habilita los controles del formulario (NIT, nombre, teléfono y
+     * dirección) para permitir el ingreso o edición de datos.
+     */
     private void activarFormulario() {
         txtNit.setDisable(false);
         txtNombre.setDisable(false);
@@ -250,6 +353,10 @@ public class EditorialController implements Initializable {
         txtDireccion.setDisable(false);
     }
 
+    /**
+     * Deshabilita los controles del formulario (NIT, nombre, teléfono y
+     * dirección) para evitar modificaciones no deseadas.
+     */
     private void desactivarFormulario() {
         txtNit.setDisable(true);
         txtNombre.setDisable(true);
@@ -257,6 +364,10 @@ public class EditorialController implements Initializable {
         txtDireccion.setDisable(true);
     }
 
+    /**
+     * Habilita los controles de navegación y acciones sobre la tabla
+     * (tabla, botones de CRUD/navegación y buscador).
+     */
     private void activarNavegacion() {
         tablaEditoriales.setDisable(false);
         btnNuevo.setDisable(false);
@@ -268,6 +379,11 @@ public class EditorialController implements Initializable {
         txtBuscar.setDisable(false);
     }
 
+    /**
+     * Deshabilita los controles de navegación y acciones sobre la tabla
+     * (tabla, botones de CRUD/navegación y buscador), típicamente mientras
+     * el formulario está activo para creación o edición.
+     */
     private void desactivarNavegacion() {
         tablaEditoriales.setDisable(true);
         btnNuevo.setDisable(true);
@@ -279,6 +395,11 @@ public class EditorialController implements Initializable {
         txtBuscar.setDisable(true);
     }
 
+    /**
+     * Muestra una alerta de tipo error con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -287,6 +408,11 @@ public class EditorialController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra una alerta de tipo advertencia con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarAdvertencia(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Advertencia");
