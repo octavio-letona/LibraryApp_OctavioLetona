@@ -42,8 +42,6 @@ import org.ol.system.Main;
  * ({@link #lineasVenta}), calcula el total automáticamente a partir de los
  * subtotales de cada {@link LineaVenta} y, al confirmar, crea la
  * {@link Venta} junto con sus detalles y descuenta el stock correspondiente
- * mediante {@link VentaDAO#crearVenta(Venta, ObservableList)}.
- *
  * @author Octavio Javier Letona Figueroa
  * @version 1.0.0
  * @see Venta
