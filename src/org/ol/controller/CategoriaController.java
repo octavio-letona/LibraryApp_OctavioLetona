@@ -28,10 +28,10 @@ import org.ol.system.Main;
  * Controlador de la interfaz gráfica de usuario para la gestión de categorías.
  * Administra la presentación, búsqueda, creación, edición y navegación de registros de {@link Categoria} en JavaFX.
  *
- * @author Alvaro Calderón
+ * @author Octavio letona
  * @version 1.0
  * @see javafx.fxml.Initializable
- * @see org.ac.model.Categoria
+ * @see org.ol.model.Categoria
  */
 public class CategoriaController implements Initializable {
 
