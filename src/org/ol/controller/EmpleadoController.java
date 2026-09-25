@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package org.ol.controller;
 
 import java.io.IOException;
@@ -22,54 +18,52 @@ import org.ol.system.Main;
 import org.ol.manager.SesionContext;
 
 /**
- * Controlador del panel de control (dashboard) administrativo de la aplicación.
+ * Controlador del panel de operaciones para usuarios con rol de Empleado.
  * 
- * Proporciona la interfaz principal para que los administradores accedan a las
- * diferentes secciones de gestión del sistema, incluyendo:
- * - Gestión de usuarios
- * - Gestión de libros
- * - Gestión de autores
- * - Gestión de categorías
- * - Gestión de editoriales
- * - Gestión de ventas
- * - Gestión de relaciones autor-libro
- * - Gestión de detalles de ventas
- * - Gestión de clientes
+ * Proporciona una interfaz centrada en la gestión de catálogo y datos maestros,
+ * permitiendo acceso a las siguientes funcionalidades:
+ * - Consultar inventario disponible
+ * - Gestionar libros
+ * - Gestionar autores
+ * - Gestionar categorías
+ * - Gestionar editoriales
+ * - Gestionar clientes
  * 
  * Muestra información de bienvenida del usuario en sesión y proporciona acceso rápido
- * mediante tarjetas interactivas (cards) para funcionalidades frecuentes.
+ * mediante tarjetas interactivas (cards) para las funcionalidades principales.
+ * 
+ * El controlador maneja la autenticación del usuario mediante SesionContext y
+ * proporciona un flujo de navegación para cerrar sesión.
  * 
  * @author Octavio Letona
  * @version 1.0.0
  * @since 2026
  */
-public class AdminDashboardViewController implements Initializable {
+public class EmpleadoController implements Initializable {
 
     @FXML private Label lblBienvenida;
     @FXML private Label lblRol;
     @FXML private Button btnCerrarSesion;
     @FXML private Circle avatarCircle;
 
-    @FXML private Button btnUsuario;
+    @FXML private Button btnInventario;
     @FXML private Button btnLibro;
     @FXML private Button btnAutor;
     @FXML private Button btnCategoria;
     @FXML private Button btnEditorial;
-    @FXML private Button btnVentas;
-    @FXML private Button btnAutorLibro;
-    @FXML private Button btnDetalleVenta;
+    @FXML private Button btnClientes;
 
-    @FXML private VBox cardNuevoLibro;
-    @FXML private VBox cardAgregarVenta;
     @FXML private VBox cardVerInventario;
-    @FXML private VBox cardGestionarUsuarios;
-    @FXML private VBox cardReportes;
-    @FXML private VBox cardConfiguracion;
+    @FXML private VBox cardNuevoLibro;
+    @FXML private VBox cardNuevoAutor;
+    @FXML private VBox cardNuevaCategoria;
+    @FXML private VBox cardNuevaEditorial;
+    @FXML private VBox cardNuevoCliente;
 
     private Usuario usuarioActual;
 
     /**
-     * Inicializa el controlador del dashboard cargando la información del usuario en sesión.
+     * Inicializa el controlador del panel de empleado cargando la información del usuario en sesión.
      * Se ejecuta automáticamente cuando se carga el archivo FXML.
      * 
      * Operaciones realizadas:
@@ -100,7 +94,7 @@ public class AdminDashboardViewController implements Initializable {
     /**
      * Capitaliza la primera letra de un texto y convierte el resto a minúsculas.
      * 
-     * Ejemplo: "admin" → "Admin", "USUARIO" → "Usuario"
+     * Ejemplo: "empleado" → "Empleado", "OPERARIO" → "Operario"
      * 
      * @param texto el texto a capitalizar
      * @return el texto capitalizado, o cadena vacía si el texto es nulo o vacío
@@ -121,18 +115,18 @@ public class AdminDashboardViewController implements Initializable {
     @FXML
     public void cerrarSesion(ActionEvent evento) {
         SesionContext.getInstancia().cerrarSesion();
-        navegar("/org/ac/view/fxml/InicioSesionView.fxml");
+        navegar("/org/ol/view/InicioSesionView.fxml");
     }
 
     /**
-     * Maneja la navegación hacia la sección de gestión de usuarios.
+     * Maneja la navegación hacia la sección de consulta del inventario.
      * 
      * @param evento ActionEvent generado por el botón correspondiente
      * @see #navegar(String)
      */
     @FXML
-    public void irAUsuario(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/UsuarioView.fxml");
+    public void irAInventario(ActionEvent evento) {
+        navegar("/org/ol/view/InventarioView.fxml");
     }
 
     /**
@@ -143,7 +137,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irALibro(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/LibroView.fxml");
+        navegar("/org/ol/view/LibroView.fxml");
     }
 
     /**
@@ -154,7 +148,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAAutor(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/AutorView.fxml");
+        navegar("/org/ol/view/AutorView.fxml");
     }
 
     /**
@@ -165,7 +159,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irACategoria(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/CategoriaView.fxml");
+        navegar("/org/ol/view/CategoriaView.fxml");
     }
 
     /**
@@ -176,128 +170,90 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAEditorial(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/EditorialView.fxml");
-    }
-
-    /**
-     * Maneja la navegación hacia la sección de gestión de ventas.
-     * 
-     * @param evento ActionEvent generado por el botón correspondiente
-     * @see #navegar(String)
-     */
-    @FXML
-    public void irAVentas(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/ListaVentasView.fxml");
-    }
-
-    /**
-     * Maneja la navegación hacia la sección de gestión de relaciones autor-libro.
-     * 
-     * @param evento ActionEvent generado por el botón correspondiente
-     * @see #navegar(String)
-     */
-    @FXML
-    public void irAAutorLibro(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/AutorLibroView.fxml");
-    }
-
-    /**
-     * Maneja la navegación hacia la sección de gestión de detalles de ventas.
-     * 
-     * @param evento ActionEvent generado por el botón correspondiente
-     * @see #navegar(String)
-     */
-    @FXML
-    public void irADetalleVenta(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/DetalleVentaView.fxml");
+        navegar("/org/ol/view/EditorialView.fxml");
     }
 
     /**
      * Maneja la navegación hacia la sección de gestión de clientes.
-     * Utiliza Main.cambiarEscena() de manera directa para cambiar de vista.
      * 
      * @param evento ActionEvent generado por el botón correspondiente
+     * @see #navegar(String)
      */
     @FXML
     public void irAClientes(ActionEvent evento) {
-        try {
-            Main.cambiarEscena("/org/ac/view/fxml/ClienteView.fxml");
-        } catch (IOException e) {
-            System.err.println("Error al cargar clientes: " + e.getMessage());
-            
-        }
+        navegar("/org/ol/view/ClienteView.fxml");
     }
 
     /**
-     * Maneja el evento de crear un nuevo libro.
-     * Navega hacia el formulario de creación de libros.
+     * Maneja el evento para consultar el inventario disponible.
+     * Navega hacia la vista del inventario.
+     * 
+     * @param evento MouseEvent generado por la tarjeta de ver inventario
+     * @see #navegar(String)
+     */
+    @FXML
+    public void verInventario(MouseEvent evento) {
+        navegar("/org/ol/view/InventarioView.fxml");
+    }
+
+    /**
+     * Maneja el evento para acceder a la gestión de libros.
+     * Navega hacia la vista de libros.
      * 
      * @param evento MouseEvent generado por la tarjeta de nuevo libro
      * @see #navegar(String)
      */
     @FXML
     public void nuevoLibro(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/LibroFormView.fxml");
+        navegar("/org/ol/view/LibroView.fxml");
     }
 
     /**
-     * Maneja el evento de agregar una nueva venta.
-     * Navega hacia el formulario de creación de ventas.
+     * Maneja el evento para acceder a la gestión de autores.
+     * Navega hacia la vista de autores.
      * 
-     * @param evento MouseEvent generado por la tarjeta de agregar venta
+     * @param evento MouseEvent generado por la tarjeta de nuevo autor
      * @see #navegar(String)
      */
     @FXML
-    public void agregarVenta(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/VentaView.fxml");
+    public void nuevoAutor(MouseEvent evento) {
+        navegar("/org/ol/view/AutorView.fxml");
     }
 
     /**
-     * Maneja el evento para ver el inventario disponible.
-     * Navega hacia la vista del inventario.
+     * Maneja el evento para acceder a la gestión de categorías.
+     * Navega hacia la vista de categorías.
      * 
-     * @param evento MouseEvent generado por la tarjeta de inventario
+     * @param evento MouseEvent generado por la tarjeta de nueva categoría
      * @see #navegar(String)
      */
     @FXML
-    public void verInventario(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/InventarioView.fxml");
+    public void nuevaCategoria(MouseEvent evento) {
+        navegar("/org/ol/view/CategoriaView.fxml");
     }
 
     /**
-     * Maneja el evento de gestionar usuarios del sistema.
-     * Navega hacia la vista de gestión de usuarios.
+     * Maneja el evento para acceder a la gestión de editoriales.
+     * Navega hacia la vista de editoriales.
      * 
-     * @param evento MouseEvent generado por la tarjeta de gestión de usuarios
+     * @param evento MouseEvent generado por la tarjeta de nueva editorial
      * @see #navegar(String)
      */
     @FXML
-    public void gestionarUsuarios(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/GestionUsuariosView.fxml");
+    public void nuevaEditorial(MouseEvent evento) {
+        navegar("/org/ol/view/EditorialView.fxml");
     }
 
     /**
-     * Maneja el evento para acceder a los reportes del sistema.
-     * Navega hacia la vista de reportes.
+     * Maneja el evento para acceder a la gestión de clientes.
+     * Navega hacia la vista de clientes.
      * 
-     * @param evento MouseEvent generado por la tarjeta de reportes
+     * @param evento MouseEvent generado por la tarjeta de nuevo cliente
      * @see #navegar(String)
      */
     @FXML
-    public void reportes(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/ReportesView.fxml");
-    }
-
-    /**
-     * Maneja el evento para acceder a la configuración del sistema.
-     * Navega hacia la vista de configuración.
-     * 
-     * @param evento MouseEvent generado por la tarjeta de configuración
-     * @see #navegar(String)
-     */
-    @FXML
-    public void configuracion(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/ConfiguracionView.fxml");
+    public void nuevoCliente(MouseEvent evento) {
+        navegar("/org/ol/view/ClienteView.fxml");
     }
 
     /**
@@ -319,23 +275,5 @@ public class AdminDashboardViewController implements Initializable {
             alerta.setHeaderText(null);
             alerta.showAndWait();
         }
-    }
-
-    /**
-     * Inicializa el dashboard con un usuario específico.
-     * Actualiza los labels de bienvenida y rol con la información del usuario proporcionado.
-     * 
-     * Este método es útil para establecer el usuario después de que el controlador
-     * ha sido inicializado si el usuario no estaba disponible en ese momento.
-     * 
-     * @param usuario el Usuario a establecer como usuario actual del dashboard
-     */
-    public void iniciarUsuario(Usuario usuario) {
-        this.usuarioActual = usuario;
-        lblBienvenida.setText(usuario.getUsername());
-        String iniciales = usuario.getUsername()
-                .substring(0, Math.min(2, usuario.getUsername().length()))
-                .toUpperCase();
-        lblRol.setText(iniciales + " · " + capitalize(usuario.getRol()));
     }
 }

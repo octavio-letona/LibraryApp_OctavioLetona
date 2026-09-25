@@ -14,10 +14,10 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="900.0" styleClass="root" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ol.controller.AdminDashboardViewController">
+<BorderPane prefHeight="600.0" prefWidth="900.0" styleClass="root" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ol.controller.EmpleadoController">
     <stylesheets>
-        <URL value="@/org/ol/view/base.css" />
-        <URL value="@/org/ol/view/admindashboradview.css" />
+        <URL value="@/org/ac/view/style/base.css" />
+        <URL value="@/org/ac/view/style/admindashboradview.css" />
     </stylesheets>
 
     <top>
@@ -27,7 +27,7 @@
                     <Circle fx:id="avatarCircle" radius="18.0" styleClass="avatar" />
                     <VBox spacing="2.0">
                         <Label fx:id="lblBienvenida" styleClass="header-title" text="Bienvenido" />
-                        <Label fx:id="lblRol" styleClass="header-subtitle" text="Administrador" />
+                        <Label fx:id="lblRol" styleClass="header-subtitle" text="Empleado" />
                     </VBox>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
@@ -50,15 +50,12 @@
                 <Separator styleClass="sidebar-separator" />
                 <VBox spacing="2.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <Button fx:id="btnUsuario" mnemonicParsing="false" onAction="#irAUsuario" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   👤   Usuarios" />
+                        <Button fx:id="btnInventario" mnemonicParsing="false" onAction="#irAInventario" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📦   Inventario" />
                         <Button fx:id="btnLibro" mnemonicParsing="false" onAction="#irALibro" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📖   Libros" />
                         <Button fx:id="btnAutor" mnemonicParsing="false" onAction="#irAAutor" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   ✍️   Autores" />
                         <Button fx:id="btnCategoria" mnemonicParsing="false" onAction="#irACategoria" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🏷️   Categorías" />
                         <Button fx:id="btnEditorial" mnemonicParsing="false" onAction="#irAEditorial" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🏢   Editoriales" />
-                        <Button fx:id="btnVentas" mnemonicParsing="false" onAction="#irAVentas" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🧾   Ventas" />
-                        <Button fx:id="btnAutorLibro" mnemonicParsing="false" onAction="#irAAutorLibro" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🔗   Autores-Libro" />
-                        <Button fx:id="btnDetalleVenta" mnemonicParsing="false" onAction="#irADetalleVenta" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   📋   Detalle Ventas" />
-                        <Button fx:id="btnClientes" layoutX="10.0" layoutY="230.0" mnemonicParsing="false" onAction="#irAClientes" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🧾   Clientes" />
+                        <Button fx:id="btnClientes" mnemonicParsing="false" onAction="#irAClientes" prefHeight="42.0" prefWidth="200.0" styleClass="sidebar-button" text="   🧾   Clientes" />
                     </children>
                 </VBox>
                 <Separator styleClass="sidebar-separator" />
@@ -72,39 +69,15 @@
             <content>
                 <AnchorPane prefHeight="544.0" prefWidth="680.0" styleClass="center-content">
                     <children>
-                        <Label layoutX="32.0" layoutY="24.0" styleClass="section-title" text="Panel de Control">
+                        <Label layoutX="32.0" layoutY="24.0" styleClass="section-title" text="Panel de Empleado">
                             <font>
                                 <Font size="22.0" />
                             </font>
                         </Label>
-                        <Label layoutX="32.0" layoutY="50.0" styleClass="section-subtitle" text="Accesos rápidos a las funciones principales del sistema" />
+                        <Label layoutX="32.0" layoutY="50.0" styleClass="section-subtitle" text="Inventario y gestión de catálogo" />
                         <Separator layoutX="32.0" layoutY="70.0" prefWidth="600.0" styleClass="section-separator" />
                         <TilePane alignment="TOP_CENTER" hgap="24.0" layoutX="32.0" layoutY="90.0" prefColumns="3" prefHeight="420.0" prefWidth="616.0" vgap="24.0">
                             <children>
-                                <VBox fx:id="cardNuevoLibro" onMouseClicked="#nuevoLibro" prefHeight="160.0" prefWidth="186.0" styleClass="card">
-                                    <children>
-                                        <VBox styleClass="card-accent-primary" VBox.vgrow="ALWAYS" />
-                                        <Label styleClass="card-icon" text="📖" />
-                                        <Label styleClass="card-title" text="Nuevo Libro" />
-                                        <Label styleClass="card-desc" text="Registrar un nuevo" />
-                                        <Label styleClass="card-desc" text="libro en el sistema" />
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
-                                    </padding>
-                                </VBox>
-                                <VBox fx:id="cardAgregarVenta" onMouseClicked="#agregarVenta" prefHeight="160.0" prefWidth="186.0" styleClass="card">
-                                    <children>
-                                        <VBox styleClass="card-accent-success" VBox.vgrow="ALWAYS" />
-                                        <Label styleClass="card-icon" text="➕" />
-                                        <Label styleClass="card-title" text="Agregar Venta" />
-                                        <Label styleClass="card-desc" text="Registrar una nueva" />
-                                        <Label styleClass="card-desc" text="venta o factura" />
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
-                                    </padding>
-                                </VBox>
                                 <VBox fx:id="cardVerInventario" onMouseClicked="#verInventario" prefHeight="160.0" prefWidth="186.0" styleClass="card">
                                     <children>
                                         <VBox styleClass="card-accent-info" VBox.vgrow="ALWAYS" />
@@ -117,38 +90,61 @@
                                         <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
                                     </padding>
                                 </VBox>
-                                <VBox fx:id="cardGestionarUsuarios" onMouseClicked="#gestionarUsuarios" prefHeight="160.0" prefWidth="186.0" styleClass="card">
+                                <VBox fx:id="cardNuevoLibro" onMouseClicked="#nuevoLibro" prefHeight="160.0" prefWidth="186.0" styleClass="card">
+                                    <children>
+                                        <VBox styleClass="card-accent-primary" VBox.vgrow="ALWAYS" />
+                                        <Label styleClass="card-icon" text="📖" />
+                                        <Label styleClass="card-title" text="Nuevo Libro" />
+                                        <Label styleClass="card-desc" text="Registrar un nuevo" />
+                                        <Label styleClass="card-desc" text="libro en el sistema" />
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
+                                    </padding>
+                                </VBox>
+                                <VBox fx:id="cardNuevoAutor" onMouseClicked="#nuevoAutor" prefHeight="160.0" prefWidth="186.0" styleClass="card">
+                                    <children>
+                                        <VBox styleClass="card-accent-primary" VBox.vgrow="ALWAYS" />
+                                        <Label styleClass="card-icon" text="✍️" />
+                                        <Label styleClass="card-title" text="Nuevo Autor" />
+                                        <Label styleClass="card-desc" text="Registrar un" />
+                                        <Label styleClass="card-desc" text="autor en el sistema" />
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
+                                    </padding>
+                                </VBox>
+                                <VBox fx:id="cardNuevaCategoria" onMouseClicked="#nuevaCategoria" prefHeight="160.0" prefWidth="186.0" styleClass="card">
                                     <children>
                                         <VBox styleClass="card-accent-warning" VBox.vgrow="ALWAYS" />
-                                        <Label styleClass="card-icon" text="👥" />
-                                        <Label styleClass="card-title" text="Gestionar" />
-                                        <Label styleClass="card-title" text="Usuarios" />
-                                        <Label styleClass="card-desc" text="Administrar cuentas" />
-                                        <Label styleClass="card-desc" text="y permisos" />
+                                        <Label styleClass="card-icon" text="🏷️" />
+                                        <Label styleClass="card-title" text="Nueva Categoría" />
+                                        <Label styleClass="card-desc" text="Registrar una" />
+                                        <Label styleClass="card-desc" text="categoría" />
                                     </children>
                                     <padding>
                                         <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
                                     </padding>
                                 </VBox>
-                                <VBox fx:id="cardReportes" onMouseClicked="#reportes" prefHeight="160.0" prefWidth="186.0" styleClass="card">
-                                    <children>
-                                        <VBox styleClass="card-accent-danger" VBox.vgrow="ALWAYS" />
-                                        <Label styleClass="card-icon" text="📊" />
-                                        <Label styleClass="card-title" text="Reportes" />
-                                        <Label styleClass="card-desc" text="Ver reportes y" />
-                                        <Label styleClass="card-desc" text="estadísticas" />
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
-                                    </padding>
-                                </VBox>
-                                <VBox fx:id="cardConfiguracion" onMouseClicked="#configuracion" prefHeight="160.0" prefWidth="186.0" styleClass="card">
+                                <VBox fx:id="cardNuevaEditorial" onMouseClicked="#nuevaEditorial" prefHeight="160.0" prefWidth="186.0" styleClass="card">
                                     <children>
                                         <VBox styleClass="card-accent-secondary" VBox.vgrow="ALWAYS" />
-                                        <Label styleClass="card-icon" text="⚙️" />
-                                        <Label styleClass="card-title" text="Configuración" />
-                                        <Label styleClass="card-desc" text="Ajustes del" />
-                                        <Label styleClass="card-desc" text="sistema" />
+                                        <Label styleClass="card-icon" text="🏢" />
+                                        <Label styleClass="card-title" text="Nueva Editorial" />
+                                        <Label styleClass="card-desc" text="Registrar una" />
+                                        <Label styleClass="card-desc" text="editorial" />
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
+                                    </padding>
+                                </VBox>
+                                <VBox fx:id="cardNuevoCliente" onMouseClicked="#nuevoCliente" prefHeight="160.0" prefWidth="186.0" styleClass="card">
+                                    <children>
+                                        <VBox styleClass="card-accent-success" VBox.vgrow="ALWAYS" />
+                                        <Label styleClass="card-icon" text="🧾" />
+                                        <Label styleClass="card-title" text="Nuevo Cliente" />
+                                        <Label styleClass="card-desc" text="Registrar un" />
+                                        <Label styleClass="card-desc" text="cliente" />
                                     </children>
                                     <padding>
                                         <Insets bottom="16.0" left="16.0" right="16.0" top="0.0" />
