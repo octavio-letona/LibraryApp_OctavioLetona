@@ -34,9 +34,22 @@ import org.ol.model.LineaVenta;
 import org.ol.model.Venta;
 import org.ol.system.Main;
 
-//Controlador de la venta: arma líneas (libro + cantidad) en una tabla temporal,
-//calcula el total automáticamente y al guardar crea la Venta y sus DetalleVenta
-//con el stock descontado.
+/**
+ * Controlador FXML encargado de registrar una nueva venta dentro de la
+ * aplicación LibraryApp.
+ * <p>
+ * Arma líneas de venta (libro + cantidad) en una tabla temporal
+ * ({@link #lineasVenta}), calcula el total automáticamente a partir de los
+ * subtotales de cada {@link LineaVenta} y, al confirmar, crea la
+ * {@link Venta} junto con sus detalles y descuenta el stock correspondiente
+ * mediante {@link VentaDAO#crearVenta(Venta, ObservableList)}.
+ *
+ * @author Octavio Javier Letona Figueroa
+ * @version 1.0.0
+ * @see Venta
+ * @see LineaVenta
+ * @see VentaDAO
+ */
 public class VentaController implements Initializable {
 
     @FXML
@@ -75,6 +88,17 @@ public class VentaController implements Initializable {
     private final LibroDAO libroDAO = new LibroDAOImpl();
     private final ObservableList<LineaVenta> lineasVenta = FXCollections.observableArrayList();
 
+    /**
+     * Inicializa el controlador después de que su elemento raíz haya sido
+     * procesado por completo. Carga los combos de cliente y libro,
+     * configura la tabla de líneas, el spinner de cantidad y calcula el
+     * total inicial (Q0.00).
+     *
+     * @param location  la ubicación usada para resolver rutas relativas del
+     *                  objeto raíz, o {@code null} si no se conoce.
+     * @param resources los recursos usados para localizar el objeto raíz,
+     *                  o {@code null} si no se localizó.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarCombos();
@@ -84,6 +108,12 @@ public class VentaController implements Initializable {
         calcularTotal();
     }
 
+    /**
+     * Carga los combos de {@link #cmbCliente} y {@link #cmbLibro} con la
+     * información obtenida de {@link #clienteDAO} y {@link #libroDAO}
+     * respectivamente. Si ocurre un error de acceso a datos, se muestra una
+     * alerta al usuario.
+     */
     private void cargarCombos() {
         try {
             cmbCliente.setItems(FXCollections.observableArrayList(clienteDAO.listarTodos()));
@@ -93,6 +123,11 @@ public class VentaController implements Initializable {
         }
     }
 
+    /**
+     * Asocia cada columna de {@link #tablaLineas} con la propiedad
+     * correspondiente del modelo {@link LineaVenta} mediante
+     * {@link PropertyValueFactory}.
+     */
     private void configurarTabla() {
         colIsbn.setCellValueFactory(new PropertyValueFactory<LineaVenta, String>("isbn"));
         colTitulo.setCellValueFactory(new PropertyValueFactory<LineaVenta, String>("titulo"));
@@ -101,10 +136,19 @@ public class VentaController implements Initializable {
         colSubtotal.setCellValueFactory(new PropertyValueFactory<LineaVenta, Double>("subtotal"));
     }
 
+    /**
+     * Configura {@link #spCantidad} con un rango de 1 a 999 y valor inicial
+     * de 1 mediante {@link SpinnerValueFactory.IntegerSpinnerValueFactory}.
+     */
     private void configurarSpinner() {
         spCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 999, 1));
     }
 
+    /**
+     * Recalcula el total de la venta sumando el subtotal de cada
+     * {@link LineaVenta} en {@link #lineasVenta} y actualiza
+     * {@link #lblTotal} con el formato "Total: Qxx.xx".
+     */
     private void calcularTotal() {
         double total = 0;
         for (LineaVenta linea : lineasVenta) {
@@ -113,6 +157,13 @@ public class VentaController implements Initializable {
         lblTotal.setText(String.format("Total: Q%.2f", total));
     }
 
+    /**
+     * Agrega una nueva línea a {@link #lineasVenta} con el libro
+     * seleccionado en {@link #cmbLibro} y la cantidad de {@link #spCantidad},
+     * validando que se haya seleccionado un libro y que exista stock
+     * suficiente. Al agregar, recalcula el total y reinicia el combo de
+     * libro y el spinner de cantidad.
+     */
     @FXML
     private void handleAgregarLinea() {
         Libro libro = cmbLibro.getValue();
@@ -132,6 +183,12 @@ public class VentaController implements Initializable {
         spCantidad.getValueFactory().setValue(1);
     }
 
+    /**
+     * Elimina de {@link #lineasVenta} la línea seleccionada en
+     * {@link #tablaLineas} y recalcula el total. Si no hay ninguna línea
+     * seleccionada, muestra una advertencia y no realiza ninguna acción
+     * adicional.
+     */
     @FXML
     private void handleQuitarLinea() {
         LineaVenta seleccion = tablaLineas.getSelectionModel().getSelectedItem();
@@ -143,6 +200,10 @@ public class VentaController implements Initializable {
         calcularTotal();
     }
 
+    /**
+     * Elimina todas las líneas de {@link #lineasVenta}, recalcula el total
+     * y limpia el mensaje de estado.
+     */
     @FXML
     private void handleVaciar() {
         lineasVenta.clear();
@@ -150,6 +211,18 @@ public class VentaController implements Initializable {
         lblMensaje.setText("");
     }
 
+    /**
+     * Valida que se haya seleccionado un cliente y que exista al menos una
+     * línea de venta, calcula el total y registra la venta junto con sus
+     * líneas mediante {@link #ventaDAO}, lo que también descuenta el stock
+     * de cada libro. Muestra un mensaje de éxito con el número de venta
+     * generado o una alerta de error si el registro falla.
+     *
+     * @throws ValidacionException si no se seleccionó un cliente o si no
+     *                              se agregó ninguna línea a la venta
+     *                              (capturada internamente y mostrada como
+     *                              advertencia al usuario).
+     */
     @FXML
     private void handleRegistrarVenta() {
         try {
@@ -183,6 +256,11 @@ public class VentaController implements Initializable {
         }
     }
 
+    /**
+     * Restablece el estado del formulario tras registrar una venta: limpia
+     * las líneas, el cliente y el libro seleccionados, reinicia el spinner
+     * de cantidad a 1 y recalcula el total.
+     */
     private void limpiarVenta() {
         lineasVenta.clear();
         cmbCliente.setValue(null);
@@ -191,6 +269,11 @@ public class VentaController implements Initializable {
         calcularTotal();
     }
 
+    /**
+     * Regresa al menú principal correspondiente al rol del usuario,
+     * cambiando de escena mediante {@link Main#cambiarEscena(String)}.
+     * Si ocurre un error al cambiar de escena, se muestra una alerta.
+     */
     @FXML
     private void handleVolver() {
         try {
@@ -200,6 +283,11 @@ public class VentaController implements Initializable {
         }
     }
 
+    /**
+     * Muestra una alerta de tipo error con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -208,6 +296,11 @@ public class VentaController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra una alerta de tipo advertencia con el mensaje indicado.
+     *
+     * @param mensaje el texto a mostrar en el cuerpo de la alerta.
+     */
     private void mostrarAdvertencia(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Advertencia");
