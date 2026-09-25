@@ -86,10 +86,6 @@ public class RegistrarUsuarioController implements Initializable {
      *
      * @param evento el evento de acción generado al pulsar el botón de
      * registrar.
-     * @throws ValidacionException si algún campo requerido está vacío, si el
-     * correo no tiene un formato válido, si las contraseñas no coinciden, o si
-     * la contraseña no cumple la longitud mínima de 6 caracteres (capturada
-     * internamente y mostrada como advertencia al usuario).
      */
     @FXML
     public void eventoRegistrar(ActionEvent evento) {

@@ -431,7 +431,7 @@ public class ListaVentasController implements Initializable {
         }
         FacturaController.setNoVentaSeleccionada(seleccion.getNoVenta());
         try {
-            Main.cambiarEscena("/org/ac/view/fxml/FacturaView.fxml");
+            Main.cambiarEscena("/org/ol/view/FacturaView.fxml");
         } catch (Exception e) {
             mostrarError("Error al abrir la factura: " + e.getMessage());
         }

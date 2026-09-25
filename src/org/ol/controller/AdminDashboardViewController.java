@@ -121,7 +121,7 @@ public class AdminDashboardViewController implements Initializable {
     @FXML
     public void cerrarSesion(ActionEvent evento) {
         SesionContext.getInstancia().cerrarSesion();
-        navegar("/org/ac/view/fxml/InicioSesionView.fxml");
+        navegar("/org/ol/view/IniciodeSesionView.fxml");
     }
 
     /**
@@ -132,7 +132,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAUsuario(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/UsuarioView.fxml");
+        navegar("/org/ol/view/UsuarioView.fxml");
     }
 
     /**
@@ -143,7 +143,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irALibro(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/LibroView.fxml");
+        navegar("/org/ol/view/LibroView.fxml");
     }
 
     /**
@@ -154,7 +154,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAAutor(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/AutorView.fxml");
+        navegar("/org/ol/view/AutorView.fxml");
     }
 
     /**
@@ -165,7 +165,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irACategoria(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/CategoriaView.fxml");
+        navegar("/org/ol/view/CategoriaView.fxml");
     }
 
     /**
@@ -176,7 +176,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAEditorial(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/EditorialView.fxml");
+        navegar("/org/ol/view/EditorialView.fxml");
     }
 
     /**
@@ -187,7 +187,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAVentas(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/ListaVentasView.fxml");
+        navegar("/org/ol/view/ListaVentasView.fxml");
     }
 
     /**
@@ -198,7 +198,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irAAutorLibro(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/AutorLibroView.fxml");
+        navegar("/org/ol/view/AutorLibroView.fxml");
     }
 
     /**
@@ -209,7 +209,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void irADetalleVenta(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/DetalleVentaView.fxml");
+        navegar("/org/ol/view/DetalleVentaView.fxml");
     }
 
     /**
@@ -221,7 +221,7 @@ public class AdminDashboardViewController implements Initializable {
     @FXML
     public void irAClientes(ActionEvent evento) {
         try {
-            Main.cambiarEscena("/org/ac/view/fxml/ClienteView.fxml");
+            Main.cambiarEscena("/org/ol/view/ClienteView.fxml");
         } catch (IOException e) {
             System.err.println("Error al cargar clientes: " + e.getMessage());
             
@@ -237,7 +237,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void nuevoLibro(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/LibroFormView.fxml");
+        navegar("/org/ol/view/LibroFormView.fxml");
     }
 
     /**
@@ -249,7 +249,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void agregarVenta(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/VentaView.fxml");
+        navegar("/org/ol/view/VentaView.fxml");
     }
 
     /**
@@ -261,7 +261,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void verInventario(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/InventarioView.fxml");
+        navegar("/org/ol/view/InventarioView.fxml");
     }
 
     /**
@@ -273,7 +273,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void gestionarUsuarios(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/GestionUsuariosView.fxml");
+        navegar("/org/ol/view/GestionUsuariosView.fxml");
     }
 
     /**
@@ -285,7 +285,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void reportes(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/ReportesView.fxml");
+        navegar("/org/ol/view/ReportesView.fxml");
     }
 
     /**
@@ -297,7 +297,7 @@ public class AdminDashboardViewController implements Initializable {
      */
     @FXML
     public void configuracion(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/ConfiguracionView.fxml");
+        navegar("/org/ol/view/ConfiguracionView.fxml");
     }
 
     /**

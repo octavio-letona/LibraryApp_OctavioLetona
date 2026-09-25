@@ -109,7 +109,7 @@ public class CajeroController implements Initializable {
     @FXML
     public void cerrarSesion(ActionEvent evento) {
         SesionContext.getInstancia().cerrarSesion();
-        navegar("/org/ac/view/fxml/InicioSesionView.fxml");
+        navegar("/org/ol/view/IniciodeSesionView.fxml");
     }
 
     /**
@@ -120,7 +120,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void irAVenta(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/VentaView.fxml");
+        navegar("/org/ol/view/VentaView.fxml");
     }
 
     /**
@@ -131,7 +131,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void irADetalleVenta(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/DetalleVentaView.fxml");
+        navegar("/org/ol/view/DetalleVentaView.fxml");
     }
 
     /**
@@ -142,7 +142,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void irAListaVentas(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/ListaVentasView.fxml");
+        navegar("/org/ol/view/ListaVentasView.fxml");
     }
 
     /**
@@ -153,7 +153,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void irAInventario(ActionEvent evento) {
-        navegar("/org/ac/view/fxml/InventarioView.fxml");
+        navegar("/org/ol/view/InventarioView.fxml");
     }
 
     /**
@@ -165,7 +165,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void agregarVenta(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/VentaView.fxml");
+        navegar("/org/ol/view/VentaView.fxml");
     }
 
     /**
@@ -177,7 +177,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void detalleVenta(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/DetalleVentaView.fxml");
+        navegar("/org/ol/view/DetalleVentaView.fxml");
     }
 
     /**
@@ -189,7 +189,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void listaVentas(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/ListaVentasView.fxml");
+        navegar("/org/ol/view/ListaVentasView.fxml");
     }
 
     /**
@@ -201,7 +201,7 @@ public class CajeroController implements Initializable {
      */
     @FXML
     public void verInventario(MouseEvent evento) {
-        navegar("/org/ac/view/fxml/InventarioView.fxml");
+        navegar("/org/ol/view/InventarioView.fxml");
     }
 
     /**

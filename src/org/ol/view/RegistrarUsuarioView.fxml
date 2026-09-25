@@ -14,7 +14,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21.0.1" fx:controller="org.ol.controller.RegistrarUsuarioController">
     <stylesheets>
-        <URL value="@/org/ac/view/style/base.css" />
+        <URL value="@registrarusuarioview.css" />
     </stylesheets>
    <children>
       <StackPane layoutX="100.0" layoutY="90.0" prefHeight="230.0" prefWidth="400.0">
