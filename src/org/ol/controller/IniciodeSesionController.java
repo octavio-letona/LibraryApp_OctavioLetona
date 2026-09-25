@@ -165,28 +165,24 @@ public class IniciodeSesionController implements Initializable {
     private void abrirDashboard(Usuario usuario) {
         SesionContext.getInstancia().setUsuarioActual(usuario);
 
-        String rol = usuario.getRol();
-        String rutaDashboard = "";
+        String rol = usuario.getRol().toLowerCase();
+        String rutaDashboard;
         switch (rol) {
             case "admin":
                 rutaDashboard = "/org/ol/view/AdminDashboardView.fxml";
                 break;
             case "cajero":
-                rutaDashboard = "/org/ol/view/AdminDashboardView.fxml";
+                rutaDashboard = "/org/ol/view/CajeroView.fxml";
                 break;
             case "empleado":
-                rutaDashboard = "/org/ol/view/AdminDashboardView.fxml";
+                rutaDashboard = "/org/ol/view/EmpleadoView.fxml";
                 break;
             default:
-                throw new AssertionError();
+                mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
+                SesionContext.getInstancia().cerrarSesion();
+                return;
         }
 
-        //String rutaFXML = Principal.rutaDashboardSegunRol();
-        if (rutaDashboard.equals("/org/ol/view/IniciodeSesionView.fxml")) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
-            SesionContext.getInstancia().cerrarSesion();
-            return;
-        }
         try {
             Main.cambiarEscena(rutaDashboard);
         } catch (IOException e) {

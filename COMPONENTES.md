@@ -194,3 +194,38 @@ graph TD
     MySQL -->|Retorna ResultSet| LibroDAOImpl
     LibroDAOImpl -->|Mapea Objeto| Libro[Libro.java]
 ```
+
+## 13. LibroView.fxml
+
+* **Nombre de la clase / paquete:** `org.ol.view.LibroView.fxml` (Paquete `org.ol.view`)
+* **Capa arquitectónica (MVC/DAO):** Vista (`View` / Interfaz de Usuario)
+* **Responsabilidad única:** Definir la estructura visual, el diseño (layout) y los componentes gráficos (botones, tablas, campos de texto) de la pantalla de gestión de libros utilizando el lenguaje de marcado FXML.
+* **Dependencias directas:**
+  * `LibroController.java` (Controlador asociado)
+  * Archivos CSS para estilos (ej. `libroview.css`)
+* **Diagrama/Flujo del dato:**
+```mermaid
+graph LR
+    Usuario((Usuario)) -->|Interacción visual| LibroView[LibroView.fxml]
+    LibroView -->|Eventos FXML/Clics| Controller[org.ol.controller.LibroController]
+    Controller -->|Actualización visual| LibroView
+```
+
+## 14. LibroController.java
+
+* **Nombre de la clase / paquete:** `org.ol.controller.LibroController` (Paquete `org.ol.controller`)
+* **Capa arquitectónica (MVC/DAO):** Controlador (`Controller`)
+* **Responsabilidad única:** Actuar como intermediario entre la vista (`LibroView.fxml`) y el modelo/persistencia (`Libro` y `LibroDAO`). Maneja los eventos de usuario (clics, textos), valida datos y actualiza la tabla de libros.
+* **Dependencias directas:**
+  * `Libro.java`
+  * `LibroDAO.java`
+  * `LibroView.fxml` (por anotaciones `@FXML`)
+  * `javafx.collections.ObservableList`
+* **Diagrama/Flujo del dato:**
+```mermaid
+graph TD
+    View[LibroView.fxml] -->|Eventos FXML| LibroController[LibroController.java]
+    LibroController -->|Llama a métodos CRUD| LibroDAO[org.ol.dao.LibroDAO]
+    LibroDAO -->|Retorna datos| LibroController
+    LibroController -->|Actualiza Tabla| View
+```

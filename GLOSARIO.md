@@ -57,3 +57,32 @@
 3.Definición en mis palabras: Es un ataque donde un usuario escribe comandos SQL en un cuadro de texto (como un campo de login o búsqueda) para engañar al sistema y acceder o borrar datos sin permiso.
 4.Ubicación en el código: Se previene en el código de nuestros DAO (ej. LibroDAOImpl.java) utilizando PreparedStatement en lugar de concatenar cadenas directamente.
 5.Ejemplo práctico & problema que resuelve: Ocurre al concatenar variables directamente en un String de SQL ("WHERE user = '" + input + "'"). El uso de consultas preparadas resuelve esta vulnerabilidad al tratar los datos de entrada estrictamente como valores y no como instrucciones ejecutables.
+1. Término técnico: FXML
+2. Definición formal: Lenguaje de marcado basado en XML utilizado para definir las interfaces de usuario (UI) en aplicaciones JavaFX, separando el diseño visual de la lógica de negocio.
+3. Definición en mis palabras: Es un archivo de texto estructurado donde diseñamos cómo se verá nuestra pantalla, definiendo botones, textos y ventanas sin mezclarlo con el código Java.
+4. Ubicación en el código: Se encuentra en el paquete de vistas (ej. src/org/ol/view/LibroView.fxml).
+5. Ejemplo práctico & problema que resuelve: Permite construir la interfaz de usuario de manera declarativa. Resuelve el problema del "código espagueti" al evitar programar la interfaz gráfica escribiendo cientos de líneas de código Java.
+
+1. Término técnico: SceneBuilder
+2. Definición formal: Herramienta de diseño visual drag-and-drop que permite construir interfaces de usuario de JavaFX de forma interactiva y que genera automáticamente el código FXML correspondiente.
+3. Definición en mis palabras: Es un programa donde arrastramos y soltamos botones y tablas para dibujar la pantalla de manera visual, y él solito escribe todo el código FXML por nosotros.
+4. Ubicación en el código: No está directamente en el código fuente, sino que es un programa externo que se usa para editar y crear todos los archivos con extensión .fxml del proyecto.
+5. Ejemplo práctico & problema que resuelve: Se utiliza para diseñar una ventana de login completa rápidamente. Resuelve el problema de la lentitud y dificultad de crear interfaces "a ciegas" escribiendo código XML manualmente.
+
+1. Término técnico: Controller (Controlador FXML)
+2. Definición formal: Clase Java asociada a un archivo FXML que maneja la inicialización de la interfaz, los eventos generados por el usuario y actúa como intermediario entre la vista (UI) y el modelo de datos (lógica).
+3. Definición en mis palabras: Es el "cerebro" detrás de la pantalla. Recibe los clics de los botones de la interfaz gráfica y decide qué hacer con ellos, llamando a la base de datos o al modelo.
+4. Ubicación en el código: Se ubica en el paquete de controladores y los métodos llevan la etiqueta @FXML (ej. src/org/ol/controller/LibroController.java).
+5. Ejemplo práctico & problema que resuelve: Contiene métodos como `guardarLibro()` que se ejecutan al hacer clic en un botón "Guardar". Resuelve el problema de mantener la lógica de funcionamiento separada del diseño de la interfaz (patrón MVC).
+
+1. Término técnico: ObservableList
+2. Definición formal: Interfaz de colección en JavaFX que envuelve una lista regular de Java y permite que los componentes de la interfaz de usuario (como TableView) "observen" y se actualicen automáticamente cuando hay cambios en los datos.
+3. Definición en mis palabras: Es una lista especial que tiene una conexión directa con la pantalla. Si agregas o quitas un elemento de esta lista por detrás en el código, la pantalla se refresca sola al instante.
+4. Ubicación en el código: En los controladores donde se manejan datos para la UI (ej. `ObservableList<Libro> listaLibros = FXCollections.observableArrayList();`).
+5. Ejemplo práctico & problema que resuelve: Al usar un TableView para libros, se le asigna un ObservableList. Resuelve el problema de tener que programar rutinas manuales y tediosas para recargar o redibujar tablas enteras cada vez que se agrega un dato.
+
+1. Término técnico: TableView
+2. Definición formal: Control de interfaz de usuario de JavaFX diseñado para mostrar grandes cantidades de datos en un formato tabular de filas y columnas, con soporte integrado para ordenamiento y selección.
+3. Definición en mis palabras: Es el componente visual en forma de tabla o cuadrícula donde mostramos nuestras listas de datos, funcionando casi como un archivo de Excel incrustado en el programa.
+4. Ubicación en el código: Se declara en los archivos .fxml y se vincula en los controladores con la anotación `@FXML private TableView<Libro> tblLibros;`.
+5. Ejemplo práctico & problema que resuelve: Se utiliza en la vista principal para listar todos los usuarios o libros registrados. Resuelve el problema de visualizar y gestionar colecciones de datos completas de manera ordenada e interactiva para el usuario.
