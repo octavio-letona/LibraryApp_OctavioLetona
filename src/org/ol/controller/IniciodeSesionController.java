@@ -177,6 +177,9 @@ public class IniciodeSesionController implements Initializable {
             case "empleado":
                 rutaDashboard = "/org/ol/view/EmpleadoView.fxml";
                 break;
+            case "bodega":
+                rutaDashboard = "/org/ol/view/InventarioView.fxml";
+                break;
             default:
                 mostrarAlerta(Alert.AlertType.ERROR, "Rol desconocido: " + usuario.getRol());
                 SesionContext.getInstancia().cerrarSesion();
