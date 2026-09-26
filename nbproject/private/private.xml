@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/UsuarioDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/FacturaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/AutorLibroDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/model/LineaVenta.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/VentaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/VentaDAO.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/LibroDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/DetalleVentaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/ClienteDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/CategoriaDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/EditorialDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/impl/AutorDAOImpl.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/AutorViewController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/ClienteDAO.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/AutorView.fxml</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/AutorLibroDAO.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/CajeroView.fxml</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/cajeroview.css</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/CajeroController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/EmpleadoView.fxml</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/empleadoview.css</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/EmpleadoController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/AdminDashboardViewController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/UsuarioViewController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/system/Main.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/iniciodesesionview.css</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/IniciodeSesionController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/IniciodeSesionView.fxml</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/view/UsuarioView.fxml</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/exception/DaoException.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/exception/ValidacionException.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/db.properties</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/db.properties.example</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/nbproject/project.properties</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/controller/RegistrarUsuarioController.java</file>
+            <file>file:/C:/octavio%20letona/bim4/s6/LibraryApp_OctavioLetona/src/org/ol/dao/UsuarioDAO.java</file>
+        </group>
+    </open-files>
+</project-private>
