@@ -1,5 +1,5 @@
 -- tabla de usuarios
-create table usuarios (
+create table if not exists usuarios (
     id_usuario int auto_increment primary key,
     username varchar(50) not null unique,
     password_hash varchar(255) not null,
@@ -14,6 +14,7 @@ ALTER TABLE usuarios
     ADD COLUMN last_name VARCHAR(50) NOT NULL AFTER first_name;
 
 -- procedimiento para registrar usuario
+drop procedure if exists sp_registrar_usuario;
 delimiter //
 create procedure sp_registrar_usuario(
     in _username varchar(50), 
@@ -26,7 +27,7 @@ begin
 end //
 delimiter ;
 
--- drop procedure sp_iniciar_sesion;
+drop procedure if exists sp_iniciar_sesion;
 -- procedimiento para iniciar sesión
 delimiter //
 create procedure sp_iniciar_sesion(
@@ -147,6 +148,10 @@ drop procedure if exists sp_actualizarcompra;
 drop procedure if exists sp_eliminarcompra;
 
 drop procedure if exists sp_insertar_venta;
+drop procedure if exists sp_listar_ventas;
+drop procedure if exists sp_buscar_venta;
+drop procedure if exists sp_actualizar_venta;
+drop procedure if exists sp_eliminar_venta;
 
 delimiter $$
 
@@ -199,6 +204,12 @@ drop procedure if exists sp_listardetallecompra;
 drop procedure if exists sp_buscardetallecompra;
 drop procedure if exists sp_actualizardetallecompra;
 drop procedure if exists sp_eliminardetallecompra;
+
+drop procedure if exists sp_listar_detalle_venta;
+drop procedure if exists sp_insertar_detalle_venta;
+drop procedure if exists sp_buscar_detalle_venta;
+drop procedure if exists sp_actualizar_detalle_venta;
+drop procedure if exists sp_eliminar_detalle_venta;
 
 delimiter $$
 
@@ -255,6 +266,10 @@ drop procedure if exists sp_buscarlibro;
 drop procedure if exists sp_actualizarlibro;
 drop procedure if exists sp_buscar_libro_id;
 
+drop procedure if exists sp_listar_todos_libros;
+drop procedure if exists sp_crear_libro;
+drop procedure if exists sp_actualizar_libro;
+drop procedure if exists sp_eliminar_libro;
 
 delimiter $$
 create procedure sp_listar_todos_libros()
@@ -318,6 +333,11 @@ drop procedure if exists sp_buscareditorial;
 drop procedure if exists sp_actualizareditorial;
 drop procedure if exists sp_eliminareditorial;
 
+drop procedure if exists sp_crear_editorial;
+drop procedure if exists sp_listar_todos_editoriales;
+drop procedure if exists sp_buscar_editorial_por_id;
+drop procedure if exists sp_actualizar_editorial;
+drop procedure if exists sp_eliminar_editorial;
 
 delimiter $$
 
@@ -368,6 +388,14 @@ delimiter ;
 -- ============================================================================
 -- SP PARA USUARIO
 -- ============================================================================
+drop procedure if exists sp_crear_usuario;
+drop procedure if exists sp_listar_todos_usuarios;
+drop procedure if exists sp_obtener_usuario_por_id;
+drop procedure if exists sp_actualizar_usuario;
+drop procedure if exists sp_cambiar_password;
+drop procedure if exists sp_desactivar_usuario;
+drop procedure if exists sp_eliminar_usuario;
+
 delimiter $$
 create procedure sp_crear_usuario(
     in _username varchar(50),
@@ -458,6 +486,7 @@ delimiter ;
 -- ------------------------------------------------------------------
 -- PROCEDIMIENTO ALMACENADO PARA DESCONTAR STOCK
 
+DROP PROCEDURE IF EXISTS sp_descontar_stock;
 DELIMITER //
 
 CREATE PROCEDURE sp_descontar_stock(
@@ -508,6 +537,7 @@ DELIMITER ;
 -- ============================================================================
 -- PROCEDIMIENTO PARA GENERAR LA FACTURA (fusion venta + detalle + cliente + libro + usuario)
 -- ============================================================================
+drop procedure if exists sp_buscar_factura;
 delimiter $$
 
 create procedure sp_buscar_factura(in _no_venta int)

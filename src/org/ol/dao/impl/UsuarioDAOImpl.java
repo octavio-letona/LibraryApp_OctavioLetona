@@ -43,7 +43,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             try (ResultSet tablaResultado = consulta.executeQuery()) {
                 if (tablaResultado.next()) {
                     usuario = new Usuario();
-                    usuario.setId(tablaResultado.getInt("id"));
+                    usuario.setId(tablaResultado.getInt("id_usuario"));
                     usuario.setUsername(tablaResultado.getString("username"));
                     usuario.setRol(tablaResultado.getString("rol"));
                 }
