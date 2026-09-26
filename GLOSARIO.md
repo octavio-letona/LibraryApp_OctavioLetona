@@ -87,3 +87,27 @@
 3. Definición en mis palabras: Es el componente visual en forma de tabla o cuadrícula donde mostramos nuestras listas de datos, funcionando casi como un archivo de Excel incrustado en el programa.
 4. Ubicación en el código: Se declara en los archivos .fxml y se vincula en los controladores con la anotación `@FXML private TableView<Libro> tblLibros;`.
 5. Ejemplo práctico & problema que resuelve: Se utiliza en la vista principal para listar todos los usuarios o libros registrados. Resuelve el problema de visualizar y gestionar colecciones de datos completas de manera ordenada e interactiva para el usuario.
+
+1. Término técnico: Excepción
+2. Definición formal: Un evento anómalo o inesperado que ocurre durante la ejecución de un programa y que interrumpe el flujo normal de las instrucciones.
+3. Definición en mis palabras: Es como una alarma que salta cuando el programa intenta hacer algo imposible o indebido, como dividir por cero o buscar un archivo que no existe.
+4. Ubicación en el código: Se encuentra en los bloques `try-catch` y en las firmas de los métodos con la palabra reservada `throws` (ej. en los DAOs al ejecutar SQL).
+5. Ejemplo práctico & problema que resuelve: Cuando el programa intenta conectarse a la base de datos y esta está apagada, se lanza una `SQLException`. Resuelve el problema de que el programa simplemente "muera" sin explicación, permitiendo capturar el error y mostrar un mensaje amigable.
+
+1. Término técnico: Manejo de Errores
+2. Definición formal: Conjunto de técnicas y estructuras de control (como try-catch-finally) diseñadas para prever, capturar y resolver excepciones, garantizando que el sistema pueda recuperarse o terminar de forma controlada.
+3. Definición en mis palabras: Es el plan de contingencia del programa. Es prepararse para lo peor para que, si algo falla, el sistema sepa cómo reaccionar en vez de colapsar por completo.
+4. Ubicación en el código: Implementado mediante bloques `try-catch` en los controladores (ej. al guardar datos) y en los DAO al ejecutar consultas.
+5. Ejemplo práctico & problema que resuelve: Si un usuario escribe texto en un campo de edad, el programa intentará convertirlo a número y fallará. El manejo de errores captura esto y muestra un "Alerta: Ingrese solo números", resolviendo el problema de los cierres inesperados por datos inválidos.
+
+1. Término técnico: Release (Git/GitHub)
+2. Definición formal: Una versión empaquetada y distribuible de un software en un punto específico de su ciclo de vida, usualmente asociada a un "Tag" en el sistema de control de versiones.
+3. Definición en mis palabras: Es como la "edición final" o la "versión 1.0" oficial del proyecto que ya está lista para entregarse al cliente o al profesor, empaquetada como un instalador o ZIP.
+4. Ubicación en el código: No está en el código fuente de Java, sino en la plataforma de alojamiento (como GitHub) bajo la sección "Releases" del repositorio.
+5. Ejemplo práctico & problema que resuelve: Al terminar el proyecto de la biblioteca, se crea un Release v1.0 con el archivo `.jar` compilado. Resuelve el problema de cómo entregar un producto funcional a los usuarios finales sin que ellos tengan que descargar el código fuente y compilarlo manualmente.
+
+1. Término técnico: Tag (Git)
+2. Definición formal: Una referencia estática que apunta a un commit específico en el historial de Git, utilizada generalmente para marcar hitos o versiones importantes (ej. v1.0.0, v2.1).
+3. Definición en mis palabras: Es como ponerle una etiqueta o un post-it brillante a una foto específica en el álbum de fotos del código, diciendo "aquí terminamos la primera entrega".
+4. Ubicación en el código: Se gestiona en la línea de comandos de Git o en la interfaz del repositorio, no dentro del código Java.
+5. Ejemplo práctico & problema que resuelve: Antes de empezar a experimentar con una nueva función que podría romper todo, se crea un tag `v1.0`. Resuelve el problema de poder identificar y regresar exactamente a ese punto estable en el futuro sin tener que memorizar el código alfanumérico largo del commit.

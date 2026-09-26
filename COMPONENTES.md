@@ -229,3 +229,22 @@ graph TD
     LibroDAO -->|Retorna datos| LibroController
     LibroController -->|Actualiza Tabla| View
 ```
+
+## 15. Principal.java
+
+* **Nombre de la clase / paquete:** `org.ol.system.Principal` (o paquete base de arranque)
+* **Capa arquitectónica (MVC/DAO):** Inicialización / Main (`App` / Punto de entrada)
+* **Responsabilidad única:** Es el punto de arranque de la aplicación. Su única responsabilidad es inicializar el entorno de JavaFX, cargar la primera vista (el FXML inicial, como el Login) y configurar la ventana principal (Stage).
+* **Dependencias directas:**
+  * `javafx.application.Application`
+  * `javafx.fxml.FXMLLoader`
+  * `javafx.scene.Scene`
+  * `javafx.stage.Stage`
+* **Diagrama/Flujo del dato:**
+```mermaid
+graph TD
+    OS[Sistema Operativo] -->|Ejecución| Principal[Principal.java]
+    Principal -->|start()| FXMLLoader[Carga FXML Inicial]
+    FXMLLoader -->|Renderiza| View[LoginView.fxml]
+    Principal -->|Muestra| Stage[Ventana Principal]
+```
