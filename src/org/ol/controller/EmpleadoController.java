@@ -115,7 +115,7 @@ public class EmpleadoController implements Initializable {
     @FXML
     public void cerrarSesion(ActionEvent evento) {
         SesionContext.getInstancia().cerrarSesion();
-        navegar("/org/ol/view/InicioSesionView.fxml");
+        navegar("/org/ol/view/IniciodeSesionView.fxml");
     }
 
     /**
