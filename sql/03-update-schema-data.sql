@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS=0;
+
 -- tabla de usuarios
 create table if not exists usuarios (
     id_usuario int auto_increment primary key,
@@ -8,10 +10,24 @@ create table if not exists usuarios (
     fecha_creacion timestamp default current_timestamp    
 );
 
-ALTER TABLE usuarios
-    ADD COLUMN email VARCHAR(50) NOT NULL AFTER username,
-    ADD COLUMN first_name VARCHAR(50) NOT NULL AFTER email,
-    ADD COLUMN last_name VARCHAR(50) NOT NULL AFTER first_name;
+-- Agregar columnas solo si no existen (ignora error 1060: Duplicate column)
+DROP PROCEDURE IF EXISTS _add_usuario_columns;
+DELIMITER //
+CREATE PROCEDURE _add_usuario_columns()
+BEGIN
+    DECLARE CONTINUE HANDLER FOR 1060 BEGIN END;
+    ALTER TABLE usuarios ADD COLUMN email VARCHAR(50) NOT NULL DEFAULT '' AFTER username;
+    ALTER TABLE usuarios ADD COLUMN first_name VARCHAR(50) NOT NULL DEFAULT '' AFTER email;
+    ALTER TABLE usuarios ADD COLUMN last_name VARCHAR(50) NOT NULL DEFAULT '' AFTER first_name;
+END //
+DELIMITER ;
+CALL _add_usuario_columns();
+DROP PROCEDURE _add_usuario_columns;
+
+-- Asegurarnos de que tengan un valor por defecto si ya existían de un intento anterior
+ALTER TABLE usuarios MODIFY COLUMN email VARCHAR(50) NOT NULL DEFAULT '';
+ALTER TABLE usuarios MODIFY COLUMN first_name VARCHAR(50) NOT NULL DEFAULT '';
+ALTER TABLE usuarios MODIFY COLUMN last_name VARCHAR(50) NOT NULL DEFAULT '';
 
 -- procedimiento para registrar usuario
 drop procedure if exists sp_registrar_usuario;
@@ -44,8 +60,8 @@ begin
 end //
 delimiter ;
 
-call sp_registrar_usuario('alvaro',sha2('admin',256),'admin');
-call sp_iniciar_sesion('alvaro',sha2('admin',256));
+-- call sp_registrar_usuario('alvaro',sha2('admin',256),'admin');
+-- call sp_iniciar_sesion('alvaro',sha2('admin',256));
 
 select * from usuarios;
 
@@ -56,87 +72,95 @@ use libreriadb_in4cm;
 -- PASO 1: Eliminar Llaves Foráneas (FK) que tienen ON DELETE CASCADE peligroso
 -- o cuyas columnas padre van a cambiar de tipo de dato.
 -- ============================================================================
-alter table libros 
-    drop foreign key fk_a_categorias,
-    drop foreign key fk_a_editoriales;
-
-alter table compras 
-    drop foreign key fk_a_cliente;
-
-alter table detalle_compra 
-    drop foreign key fk_a_libros;
-
--- ============================================================================
--- PASO 2: Corregir Nombres y Tipos de Datos en Tablas de Catálogo y Usuarios
--- ============================================================================
--- Modificar CUI a VARCHAR(13) para conservar ceros a la izquierda
-alter table clientes 
-    modify column cui varchar(13);
-
--- Corregir error ortográfico en la columna de editoriales
-alter table editoriales 
-    rename column direccion_editoria to direccion_editorial;
-
--- Renombrar 'id' a 'id_usuario' para mantener la convención de nombres
-alter table usuarios 
-    rename column id to id_usuario;
-
--- ============================================================================
--- PASO 3: Aplicar Cambios de Inventario y Precios en 'libros'
--- ============================================================================
-alter table libros 
-    add column stock int not null default 0,
-    add column stock_minimo int not null default 5,
-    modify column precio decimal(10,2) not null;
-
--- ============================================================================
--- PASO 4: Vincular Ventas con Usuarios y Ajustar Tipo de CUI en 'compras'
--- ============================================================================
-alter table compras 
-    modify column cui_cliente varchar(13),
-    modify column total_compra decimal(10,2) not null default 0.00,
-    add column id_usuario int not null;
-
--- ============================================================================
--- PASO 5: Agregar Cantidad y Precio Unitario a 'detalle_compra'
--- ============================================================================
-alter table detalle_compra 
-    add column cantidad int not null default 1,
-    add column precio_unitario decimal(10,2) not null default 0.00;
-
-
--- =============================================================================
--- CAMBIO DE NOMBRE de entidad compras A ventas y detalle compras a detalle_ventas
--- =============================================================================
-RENAME TABLE compras TO ventas, detalle_compra TO detalle_venta;
-
-ALTER TABLE ventas 
-rename column no_compra to no_venta, 
-rename column fecha_compra to fecha_venta,
-rename column total_compra to total_venta;
-ALTER TABLE detalle_venta 
-rename column id_detalle_compra to id_detalle_venta, 
-rename column no_compra to no_venta;
-
--- ============================================================================
--- Recrear las Llaves Foráneas con ON DELETE RESTRICT
--- ============================================================================
-
-
-alter table libros 
-    add constraint fk_libros_categoria foreign key (id_categoria) references categorias(id_categoria) on delete restrict,
-    add constraint fk_libros_editorial foreign key (nit_editorial) references editoriales(nit) on delete restrict;
-
--- Relaciones de Compras (Ventas)
-alter table ventas
-    add constraint fk_ventas_cliente foreign key (cui_cliente) references clientes(cui) on delete restrict,
-    add constraint fk_ventas_usuario foreign key (id_usuario) references usuarios(id_usuario) on delete restrict;
+DROP PROCEDURE IF EXISTS _drop_old_fks;
+DELIMITER //
+CREATE PROCEDURE _drop_old_fks()
+BEGIN
+    DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
+    -- Ignora error 1091 si la llave ya no existe
+    ALTER TABLE libros DROP FOREIGN KEY fk_a_categorias;
+    ALTER TABLE libros DROP FOREIGN KEY fk_a_editoriales;
     
+    -- Ignora error 1146 (Table doesn't exist) si las tablas ya fueron renombradas
+    BEGIN
+        DECLARE CONTINUE HANDLER FOR 1146 BEGIN END;
+        ALTER TABLE compras DROP FOREIGN KEY fk_a_cliente;
+        ALTER TABLE detalle_compra DROP FOREIGN KEY fk_a_libros;
+    END;
+END //
+DELIMITER ;
+CALL _drop_old_fks();
+DROP PROCEDURE _drop_old_fks;
 
--- Relación de Detalle
-alter table detalle_venta
-    add constraint fk_dc_libro foreign key (isbn) references libros(isbn) on delete restrict;
---
+-- ============================================================================
+-- PASO 2 a 5: Cambios estructurales protegidos contra re-ejecución
+-- ============================================================================
+DROP PROCEDURE IF EXISTS _apply_ddl_changes;
+DELIMITER //
+CREATE PROCEDURE _apply_ddl_changes()
+BEGIN
+    -- Ignorar si la columna no existe (1054), columna duplicada (1060), 
+    -- tabla no existe (1146), tabla ya existe (1050),
+    -- o incompatibilidad de FK por tratar de modificar una columna que ya está atada a una FK nueva (3780)
+    DECLARE CONTINUE HANDLER FOR 1054, 1060, 1146, 1050, 3780 BEGIN END;
+
+    -- Modificar CUI
+    ALTER TABLE clientes MODIFY COLUMN cui varchar(13);
+
+    -- Renombrar columnas (falla 1054 si ya se renombraron)
+    ALTER TABLE editoriales RENAME COLUMN direccion_editoria TO direccion_editorial;
+    ALTER TABLE usuarios RENAME COLUMN id TO id_usuario;
+
+    -- Agregar columnas a libros (falla 1060 si ya existen)
+    ALTER TABLE libros ADD COLUMN stock int not null default 0;
+    ALTER TABLE libros ADD COLUMN stock_minimo int not null default 5;
+    ALTER TABLE libros MODIFY COLUMN precio decimal(10,2) not null;
+
+    -- Modificar compras (falla 1146 si ya se renombró a ventas)
+    ALTER TABLE compras MODIFY COLUMN cui_cliente varchar(13);
+    ALTER TABLE compras MODIFY COLUMN total_compra decimal(10,2) not null default 0.00;
+    ALTER TABLE compras ADD COLUMN id_usuario int not null;
+
+    -- Modificar detalle_compra (falla 1146 si ya se renombró a detalle_venta)
+    ALTER TABLE detalle_compra ADD COLUMN cantidad int not null default 1;
+    ALTER TABLE detalle_compra ADD COLUMN precio_unitario decimal(10,2) not null default 0.00;
+
+    -- Renombrar tablas (falla 1050 si ventas o detalle_venta ya existen)
+    RENAME TABLE compras TO ventas, detalle_compra TO detalle_venta;
+
+    -- Renombrar columnas en las tablas nuevas (falla 1054 si ya se renombraron)
+    ALTER TABLE ventas RENAME COLUMN no_compra TO no_venta;
+    ALTER TABLE ventas RENAME COLUMN fecha_compra TO fecha_venta;
+    ALTER TABLE ventas RENAME COLUMN total_compra TO total_venta;
+
+    ALTER TABLE detalle_venta RENAME COLUMN id_detalle_compra TO id_detalle_venta;
+    ALTER TABLE detalle_venta RENAME COLUMN no_compra TO no_venta;
+END //
+DELIMITER ;
+CALL _apply_ddl_changes();
+DROP PROCEDURE _apply_ddl_changes;
+
+-- ============================================================================
+-- Recrear las Llaves Foráneas con ON DELETE RESTRICT de forma segura
+-- ============================================================================
+DROP PROCEDURE IF EXISTS _apply_fks;
+DELIMITER //
+CREATE PROCEDURE _apply_fks()
+BEGIN
+    -- Ignorar si la llave foránea ya existe (error 1826 Duplicate foreign key)
+    DECLARE CONTINUE HANDLER FOR 1826 BEGIN END;
+    
+    ALTER TABLE libros ADD CONSTRAINT fk_libros_categoria FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria) ON DELETE RESTRICT;
+    ALTER TABLE libros ADD CONSTRAINT fk_libros_editorial FOREIGN KEY (nit_editorial) REFERENCES editoriales(nit) ON DELETE RESTRICT;
+    
+    ALTER TABLE ventas ADD CONSTRAINT fk_ventas_cliente FOREIGN KEY (cui_cliente) REFERENCES clientes(cui) ON DELETE RESTRICT;
+    ALTER TABLE ventas ADD CONSTRAINT fk_ventas_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE RESTRICT;
+    
+    ALTER TABLE detalle_venta ADD CONSTRAINT fk_dc_libro FOREIGN KEY (isbn) REFERENCES libros(isbn) ON DELETE RESTRICT;
+END //
+DELIMITER ;
+CALL _apply_fks();
+DROP PROCEDURE _apply_fks;
 
 -- =============================================================================
 -- Edicion de sp para ventas eliminamos al inicio compras
@@ -564,3 +588,5 @@ begin
 end $$
 
 delimiter ;
+
+SET FOREIGN_KEY_CHECKS=1;

@@ -57,6 +57,7 @@
 3.Definición en mis palabras: Es un ataque donde un usuario escribe comandos SQL en un cuadro de texto (como un campo de login o búsqueda) para engañar al sistema y acceder o borrar datos sin permiso.
 4.Ubicación en el código: Se previene en el código de nuestros DAO (ej. LibroDAOImpl.java) utilizando PreparedStatement en lugar de concatenar cadenas directamente.
 5.Ejemplo práctico & problema que resuelve: Ocurre al concatenar variables directamente en un String de SQL ("WHERE user = '" + input + "'"). El uso de consultas preparadas resuelve esta vulnerabilidad al tratar los datos de entrada estrictamente como valores y no como instrucciones ejecutables.
+
 1. Término técnico: FXML
 2. Definición formal: Lenguaje de marcado basado en XML utilizado para definir las interfaces de usuario (UI) en aplicaciones JavaFX, separando el diseño visual de la lógica de negocio.
 3. Definición en mis palabras: Es un archivo de texto estructurado donde diseñamos cómo se verá nuestra pantalla, definiendo botones, textos y ventanas sin mezclarlo con el código Java.
